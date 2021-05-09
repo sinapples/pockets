@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <v-app id="app">
     <nav-bar></nav-bar>
     <div class="main-wrapper">
       <router-view />
@@ -17,7 +17,7 @@
       @close="closeAddToHomeScreenModalForApple(false)"
     >
     </apple-add-to-home-screen-modal>
-  </div>
+  </v-app>
 </template>
 <script>
 import NavBar from '@/components/NavBar'
