@@ -7,38 +7,33 @@
         New activity
       </v-card-title>
       <v-card-text>
-        <v-row>
-          <v-col cols="6">
-            <v-text-field outlined dense label="Activity Name"></v-text-field>
-          </v-col>
-          <v-spacer />
-          <v-col>
-            <v-btn><v-icon>mdi-plus</v-icon>Create Activity</v-btn>
-          </v-col>
-        </v-row>
-        <v-combobox
-          v-model="select"
-          item-text="displayName"
-          item-key="displayName"
-          :items="items"
-          label="Combobox"
-          outlined
-          dense
-        ></v-combobox>
-        <Checklist />
+        <AddActivity />
+
+        <ListActivities />
       </v-card-text>
     </v-card>
   </div>
 </template>
 
 <script>
-import Checklist from '@/components/Dashboard/Checklist'
+import { mapState, mapActions, mapGetters } from 'vuex'
+import AddActivity from '@/components/Dashboard/EditMenu/AddActivity'
+import ListActivities from '@/components/Dashboard/EditMenu/ListActivities'
 
 export default {
-  components: { Checklist },
+  components: { AddActivity, ListActivities },
+
   data() {
     return {
       select: '',
+      headers: [
+        {
+          text: 'name',
+          align: 'start',
+          sortable: false,
+          value: 'name'
+        }
+      ],
       items: [
         { displayName: 'Always Bring', name: 'default' },
         { displayName: 'Work', name: 'work' },
@@ -47,7 +42,13 @@ export default {
         { displayName: 'Shopping', name: 'Shopping' }
       ]
     }
-  }
+  },
+  computed: {
+    ...mapGetters('products', ['isProductDeletionPending']),
+    ...mapState('activities', ['activities']),
+    ...mapState('app', ['networkOnLine'])
+  },
+  methods: mapActions('activities', ['deleteUserProduct'])
 }
 </script>
 
