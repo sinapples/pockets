@@ -52,6 +52,12 @@ const router = new Router({
         import(/* webpackChunkName: "client-chunk-products" */ '@/views/Products.vue')
     },
     {
+      path: '/dashboard',
+      name: 'dashboard',
+      component: () =>
+        import(/* webpackChunkName: "client-chunk-products" */ '@/views/Dashboard.vue')
+    },
+    {
       path: '/products/:id',
       name: 'product',
       props: true,

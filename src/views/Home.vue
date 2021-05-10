@@ -16,7 +16,7 @@
         <v-icon color="black" fab>mdi-chevron-double-down</v-icon>
       </div>
     </v-parallax>
-    <v-container class="text-center">
+    <v-container class="text-center my-8">
       <h2 class="display-2 font-weight-bold mb-3">
         Wallet, Phone, Keys, Mask
       </h2>
@@ -31,7 +31,7 @@
         class="mx-auto title font-weight-light mb-8"
         max-width="720"
       >
-        Pockets is your daskboard before going out. Going to work? Pockets will
+        Pockets is your dashboard before going out. Going to work? Pockets will
         remind you to bring your laptop and badge. Don't forget to bring our
         water bottle when going to the gym. Is it cold outside? Pockets can
         suggest what to where and even tell you to bring an umbrella!
@@ -58,7 +58,7 @@
         <v-icon color="black">mdi-chevron-double-down</v-icon>
       </div>
     </v-parallax>
-    <v-container class="text-center">
+    <v-container class="text-center my-8">
       <h2 class="display-2 font-weight-bold mb-3">
         Hands free reminders!
       </h2>
@@ -79,11 +79,31 @@
 
       <div></div>
 
-      <v-btn color="grey" href="#/login" outlined large>
-        <span class="grey--text text--darken-1 font-weight-bold">
-          Get Started
-        </span>
-      </v-btn>
+      <v-btn
+        href="https://www.amazon.com/Sinapples-Super-Effective/dp/B08YRCS2LK"
+        target="_blank"
+        class="mr-2 noCap"
+        color="white"
+      >
+        <v-icon class="mr-2" color="blue lighten-2">mdi-amazon-alexa</v-icon>
+        Alexa</v-btn
+      >
+      <v-btn
+        href="https://assistant.google.com/services/invoke/uid/00000016d8836bb4?hl=en"
+        target="_blank"
+        color="white"
+        class="mr-2 noCap"
+      >
+        <!-- <v-icon class="mr-2">mdi-google-assistant</v-icon> -->
+        <v-img
+          contain="true"
+          class="mr-2"
+          max-height="24px"
+          max-width="24px"
+          src="@/assets/Google-Assisant.png"
+        ></v-img>
+        Google Assisant</v-btn
+      >
     </v-container>
     <v-sheet color="primary">
       <div class="text-center">
