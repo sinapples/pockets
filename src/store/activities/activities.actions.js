@@ -33,7 +33,7 @@ export default {
   triggerAddActivityAction: ({ dispatch, state, commit }) => {
     if (state.activityNameToCreate === '') return
 
-    const activity = { name: state.activityNameToCreate }
+    const activity = state.activityNameToCreate
     commit('setActivityNameToCreate', '')
     dispatch('createUserActivity', activity)
   },
@@ -51,6 +51,25 @@ export default {
     commit('addActivityDeletionPending', activityId)
     await userActivitiesDb.delete(activityId)
     commit('removeActivityById', activityId)
+
     commit('removeActivityDeletionPending', activityId)
+  },
+
+  /**
+   * Delete a user activity from its id
+   */
+  updateUserActivity: async ({ rootState, commit }, activity) => {
+    console.log(activity)
+    const userActivitiesDb = new UserActivitiesDB(
+      rootState.authentication.user.id
+    )
+    commit('setActivityCreationPending', true)
+    const activityId = await userActivitiesDb.update(activity)
+    console.log('item')
+    console.log(activityId)
+    commit('updateActivityById', activityId, activity)
+    commit('setActivityCreationPending', false)
+    const activities = await userActivitiesDb.readAll()
+    commit('setActivities', activities)
   }
 }

@@ -25,5 +25,16 @@ export default {
 
   /* Activity creation */
   setActivityCreationPending: (state, value) =>
-    (state.activityCreationPending = value)
+    (state.activityCreationPending = value),
+
+  /* Activity creation */
+  setActivityUpdatePending: (state, value) =>
+    (state.activityUpdatePending = value),
+
+  updateActivityById: (state, activityId, updatedActivity) => {
+    const index = state.activities.findIndex(
+      activity => activity.id === activityId
+    )
+    state.activities[index] = updatedActivity
+  }
 }

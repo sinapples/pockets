@@ -40,8 +40,14 @@ export default {
     ...mapMutations('activities', ['setActivityNameToCreate']),
     ...mapActions('activities', ['triggerAddActivityAction']),
     addActivity() {
-      console.log(`click${this.activityName}`)
-      this.setActivityNameToCreate(this.activityName)
+      console.log(`click ${this.activityName}`)
+      const activity = {
+        name: this.activityName,
+        items: [],
+        color: 'blue',
+        rank: 5
+      }
+      this.setActivityNameToCreate(activity)
       this.triggerAddActivityAction()
     }
   }

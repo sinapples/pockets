@@ -1,6 +1,7 @@
 export default {
   activities: null,
-  activityNameToCreate: '',
+  activityNameToCreate: {},
   activityDeletionPending: [],
-  activityCreationPending: false
+  activityCreationPending: false,
+  activityUpdatePending: false
 }
