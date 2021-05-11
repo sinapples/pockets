@@ -1,50 +1,56 @@
-import UserProductsDB from '@/firebase/user-products-db'
+import UserActivitiesDB from '@/firebase/user-activities-db'
 
 export default {
   /**
-   * Fetch products of current loggedin user
+   * Fetch activities of current loggedin user
    */
   getUserActivities: async ({ rootState, commit }) => {
-    const userProductDb = new UserProductsDB(rootState.authentication.user.id)
+    const userActivityDb = new UserActivitiesDB(
+      rootState.authentication.user.id
+    )
 
-    const activities = await userProductDb.readAll()
-    commit('setProducts', activities)
+    const activities = await userActivityDb.readAll()
+    commit('setActivities', activities)
   },
 
   /**
-   * Create a product for current loggedin user
+   * Create a activity for current loggedin user
    */
-  createUserProduct: async ({ commit, rootState }, product) => {
-    const userProductDb = new UserProductsDB(rootState.authentication.user.id)
+  createUserActivity: async ({ commit, rootState }, activity) => {
+    const userActivityDb = new UserActivitiesDB(
+      rootState.authentication.user.id
+    )
 
-    commit('setProductCreationPending', true)
-    const createdProduct = await userProductDb.create(product)
-    commit('addProduct', createdProduct)
-    commit('setProductCreationPending', false)
+    commit('setActivityCreationPending', true)
+    const createdActivity = await userActivityDb.create(activity)
+    commit('addActivity', createdActivity)
+    commit('setActivityCreationPending', false)
   },
 
   /**
-   * Create a new product for current loggedin user and reset product name input
+   * Create a new activity for current loggedin user and reset activity name input
    */
-  triggerAddProductAction: ({ dispatch, state, commit }) => {
-    if (state.productNameToCreate === '') return
+  triggerAddActivityAction: ({ dispatch, state, commit }) => {
+    if (state.activityNameToCreate === '') return
 
-    const product = { name: state.productNameToCreate }
-    commit('setProductNameToCreate', '')
-    dispatch('createUserProduct', product)
+    const activity = { name: state.activityNameToCreate }
+    commit('setActivityNameToCreate', '')
+    dispatch('createUserActivity', activity)
   },
 
   /**
-   * Delete a user product from its id
+   * Delete a user activity from its id
    */
-  deleteUserProduct: async ({ rootState, commit, getters }, productId) => {
-    if (getters.isProductDeletionPending(productId)) return
+  deleteUserActivity: async ({ rootState, commit, getters }, activityId) => {
+    if (getters.isActivityDeletionPending(activityId)) return
 
-    const userProductsDb = new UserProductsDB(rootState.authentication.user.id)
+    const userActivitiesDb = new UserActivitiesDB(
+      rootState.authentication.user.id
+    )
 
-    commit('addProductDeletionPending', productId)
-    await userProductsDb.delete(productId)
-    commit('removeProductById', productId)
-    commit('removeProductDeletionPending', productId)
+    commit('addActivityDeletionPending', activityId)
+    await userActivitiesDb.delete(activityId)
+    commit('removeActivityById', activityId)
+    commit('removeActivityDeletionPending', activityId)
   }
 }

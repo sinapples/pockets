@@ -8,7 +8,11 @@
       center-active
       active-class="primary--text"
     >
-      <v-chip v-for="activity in products" :key="activity.id" :value="activity">
+      <v-chip
+        v-for="activity in activities"
+        :key="activity.id"
+        :value="activity"
+      >
         {{ activity.name }}
       </v-chip>
     </v-chip-group>
@@ -31,29 +35,18 @@ import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
   data: () => ({
-    selectedActivity: {},
-    activities: [
-      'Work',
-      'Home Improvement',
-      'Vacation',
-      'Food',
-      'Drawers',
-      'Shopping',
-      'Art',
-      'Tech',
-      'Creative Writing'
-    ]
+    selectedActivity: {}
   }),
   computed: {
-    ...mapGetters('products', ['isProductDeletionPending']),
-    ...mapState('products', ['products']),
+    ...mapGetters('activities', ['isActivityDeletionPending']),
+    ...mapState('activities', ['activities']),
     ...mapState('app', ['networkOnLine'])
   },
   methods: {
-    ...mapActions('products', ['deleteUserProduct']),
+    ...mapActions('activities', ['deleteUserActivity']),
     deleteActivity() {
       console.log('delete')
-      this.deleteUserProduct(this.selectedActivity.id)
+      this.deleteUserActivity(this.selectedActivity.id)
     }
   }
 }

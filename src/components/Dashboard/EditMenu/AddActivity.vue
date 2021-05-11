@@ -13,7 +13,7 @@
       <v-spacer />
       <v-col>
         <v-btn
-          :class="{ disabled: productCreationPending }"
+          :class="{ disabled: activityCreationPending }"
           @click="addActivity"
         >
           <v-icon>mdi-plus</v-icon>Create Activity</v-btn
@@ -32,17 +32,17 @@ export default {
       activityName: ''
     }
   },
-  computed: mapState('products', [
-    'productNameToCreate',
-    'productCreationPending'
+  computed: mapState('activities', [
+    'activityNameToCreate',
+    'activityCreationPending'
   ]),
   methods: {
-    ...mapMutations('products', ['setProductNameToCreate']),
-    ...mapActions('products', ['triggerAddProductAction']),
+    ...mapMutations('activities', ['setActivityNameToCreate']),
+    ...mapActions('activities', ['triggerAddActivityAction']),
     addActivity() {
       console.log(`click${this.activityName}`)
-      this.setProductNameToCreate(this.activityName)
-      this.triggerAddProductAction()
+      this.setActivityNameToCreate(this.activityName)
+      this.triggerAddActivityAction()
     }
   }
 }
@@ -51,12 +51,12 @@ export default {
 <style lang="scss" scoped>
 @import '@/theme/variables.scss';
 
-.product-action-bar {
+.activity-action-bar {
   display: flex;
   align-items: center;
   justify-content: center;
 
-  .product-name-input {
+  .activity-name-input {
     padding-left: 5px;
     height: 30px;
     width: 150px;
@@ -67,7 +67,7 @@ export default {
     border-radius: 3px;
   }
 
-  .create-product-btn {
+  .create-activity-btn {
     cursor: pointer;
     padding: 5px 10px;
     border: 1px solid;

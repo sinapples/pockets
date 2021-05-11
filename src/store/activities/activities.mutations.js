@@ -1,27 +1,29 @@
 export default {
-  /* Product input name */
-  setProductNameToCreate: (state, productNameToCreate) =>
-    (state.productNameToCreate = productNameToCreate),
+  /* Activity input name */
+  setActivityNameToCreate: (state, activityNameToCreate) =>
+    (state.activityNameToCreate = activityNameToCreate),
 
-  /* Products */
-  setProducts: (state, activities) => (state.activities = activities),
-  addProduct: (state, product) => state.products.push(product),
-  removeProductById: (state, productId) => {
-    const index = state.products.findIndex(product => product.id === productId)
+  /* Activities */
+  setActivities: (state, activities) => (state.activities = activities),
+  addActivity: (state, activity) => state.activities.push(activity),
+  removeActivityById: (state, activityId) => {
+    const index = state.activities.findIndex(
+      activity => activity.id === activityId
+    )
     state.activities.splice(index, 1)
   },
 
-  /* Products deletion */
-  addProductDeletionPending: (state, productId) =>
-    state.productDeletionPending.push(productId),
-  removeProductDeletionPending: (state, productId) => {
+  /* Activities deletion */
+  addActivityDeletionPending: (state, activityId) =>
+    state.activityDeletionPending.push(activityId),
+  removeActivityDeletionPending: (state, activityId) => {
     const index = state.activities.findIndex(
-      product => product.id === productId
+      activity => activity.id === activityId
     )
-    state.productDeletionPending.splice(index, 1)
+    state.activityDeletionPending.splice(index, 1)
   },
 
-  /* Product creation */
-  setProductCreationPending: (state, value) =>
-    (state.productCreationPending = value)
+  /* Activity creation */
+  setActivityCreationPending: (state, value) =>
+    (state.activityCreationPending = value)
 }
