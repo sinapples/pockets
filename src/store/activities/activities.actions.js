@@ -11,6 +11,7 @@ export default {
 
     const activities = await userActivityDb.readAll()
     commit('setActivities', activities)
+    commit('setSelectedEditActivity', null)
   },
 
   /**
@@ -25,6 +26,7 @@ export default {
     const createdActivity = await userActivityDb.create(activity)
     commit('addActivity', createdActivity)
     commit('setActivityCreationPending', false)
+    commit('setSelectedEditActivity', activity)
   },
 
   /**
@@ -53,12 +55,14 @@ export default {
     commit('removeActivityById', activityId)
 
     commit('removeActivityDeletionPending', activityId)
+    commit('setSelectedEditActivity', null)
   },
 
   /**
    * Delete a user activity from its id
    */
   updateUserActivity: async ({ rootState, commit }, activity) => {
+    console.log('updateUserActivity')
     console.log(activity)
     const userActivitiesDb = new UserActivitiesDB(
       rootState.authentication.user.id
@@ -71,5 +75,10 @@ export default {
     commit('setActivityCreationPending', false)
     const activities = await userActivitiesDb.readAll()
     commit('setActivities', activities)
+    commit('setSelectedEditActivity', activity)
+  },
+
+  updateSelectedEditActivity: ({ commit }, activity) => {
+    commit('setSelectedEditActivity', activity)
   }
 }

@@ -36,5 +36,27 @@ export default {
       activity => activity.id === activityId
     )
     state.activities[index] = updatedActivity
+  },
+
+  setSelectedEditActivity: (state, selectedEditActivity) => {
+    if (selectedEditActivity === null) {
+      if (state.activities.length === 0) {
+        state.selectedEditActivity = {}
+      }
+      // eslint-disable-next-line prefer-destructuring
+      state.selectedEditActivity = state.activities[0]
+    } else {
+      state.selectedEditActivity = selectedEditActivity
+    }
+
+    // if (selectedEditActivity !== null) {
+    //   console.log(`setSelectedEditActivity: ${selectedEditActivity}`)
+    // }
+    // if (state.selectedEditActivity === null || state.activities.length > 0) {
+    //   console.log(`setSelectedEditActivity: ${selectedEditActivity}`)
+    //   ;[state.selectedEditActivity] = [state.activities]
+    // } else {
+    //   state.selectedEditActivity = {}
+    // }
   }
 }

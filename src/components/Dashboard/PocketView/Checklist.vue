@@ -2,7 +2,7 @@
   <div>
     <v-data-table
       :headers="headers"
-      :items="desserts"
+      :items="itemList"
       :items-per-page="5000"
       hide-default-footer
       hide-default-header
@@ -13,6 +13,9 @@
 </template>
 
 <script>
+// import activities from '@/store/activities'
+import { mapState, mapActions, mapGetters, mapMutations } from 'vuex'
+
 export default {
   data() {
     return {
@@ -51,6 +54,25 @@ export default {
         }
       ]
     }
+  },
+  computed: {
+    ...mapGetters('activities', ['isActivityDeletionPending']),
+    ...mapState('activities', ['activities', 'selectedEditActivity']),
+    ...mapState('app', ['networkOnLine']),
+    itemList() {
+      if (this.activities) {
+        const index = this.activities.findIndex(
+          element => element.name === 'Always Bring'
+        )
+        console.log(index)
+        return this.activities[index].items
+      }
+      return []
+    }
+  },
+  methods: {
+    ...mapMutations('activities', ['setSelectedEditActivity']),
+    ...mapActions('activities', ['deleteUserActivity', 'updateUserActivity'])
   }
 }
 </script>

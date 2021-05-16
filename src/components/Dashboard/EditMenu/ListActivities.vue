@@ -1,8 +1,11 @@
 <template>
   <div>
-    <div class="text-center"><h2>Activity List</h2></div>
+    <div class="text-center">
+      <h2>Activity List</h2>
+    </div>
+
     <v-chip-group
-      v-model="selectedActivity"
+      v-model="selectedChip"
       class="px-8"
       mandatory
       show-arrows
@@ -12,21 +15,24 @@
       <v-chip
         v-for="activity in activities"
         :key="activity.id"
+        :input-value="selectedChip"
         :value="activity"
+        @click="setSelectedEditActivityMoo(activity)"
       >
         {{ activity.name }}
       </v-chip>
     </v-chip-group>
 
-    <v-card class="elevation-0">
-      <!-- <v-card-text>
-        <div> -->
-      <!-- Items -->
+    <!-- <div>
+      {{ 'moo:' + JSON.stringify(selectedEditActivity) }}
+    </div> -->
 
+    <!-- Edit Card -->
+    <v-card class="elevation-0">
       <v-sheet rounded="t-xl" outlined>
         <v-sheet class="primary text-right" dark rounded="t-xl">
           <v-card-title
-            >{{ selectedActivity.name }}
+            >{{ selectedEditActivity.name }}
             <v-spacer></v-spacer>
             <v-btn icon @click="editMode = !editMode">
               <v-icon v-if="editMode">mdi-check</v-icon>
@@ -36,21 +42,24 @@
         </v-sheet>
 
         <div class="pa-4">
-          <span class="subheading ">Items to bring</span>
+          <span v-if="selectedEditActivity.items.length > 0" class="subheading"
+            >Items to bring</span
+          ><span v-else class="subheading">Item list empty</span>
+
           <v-chip-group active-class="primary--text" column>
             <v-chip
-              v-for="tag in selectedActivity.items"
+              v-for="tag in selectedEditActivity.items"
               :key="tag.id"
               :value="tag.name"
               close-icon="mdi-delete"
               :close="editMode"
-              @click:close="deleteItem()"
+              @click:close="deleteItem(tag)"
             >
               {{ tag.name }}
             </v-chip>
           </v-chip-group>
           <v-divider class="py-2"></v-divider>
-          <div v-if="editMode">
+          <div v-if="editMode || selectedEditActivity.items.length === 0">
             <v-row>
               <v-col>
                 <v-text-field
@@ -87,31 +96,58 @@
 </template>
 <script>
 import { cloneDeep } from 'lodash'
-import { mapState, mapActions, mapGetters } from 'vuex'
+import { mapState, mapActions, mapGetters, mapMutations } from 'vuex'
 
 export default {
   data: () => ({
     // Next time move this to vuex
 
-    selectedActivity: {},
+    selectedChip: {},
+    selectedChips: {},
     editMode: false,
     itemName: ''
   }),
+
   computed: {
     ...mapGetters('activities', ['isActivityDeletionPending']),
-    ...mapState('activities', ['activities']),
+    ...mapState('activities', ['activities', 'selectedEditActivity']),
     ...mapState('app', ['networkOnLine'])
   },
+  watch: {
+    selectedEditActivity(newItem) {
+      const index = this.activities.findIndex(
+        element => element.name === newItem.name
+      )
+
+      // eslint-disable-next-line prefer-destructuring
+      this.selectedChip = this.activities[index]
+    }
+  },
   methods: {
+    ...mapMutations('activities', ['setSelectedEditActivity']),
     ...mapActions('activities', ['deleteUserActivity', 'updateUserActivity']),
     deleteActivity() {
-      console.log('delete')
-      const idToDelete = this.selectedActivity.id
-      this.selectedActivity = {}
-      this.deleteUserActivity(idToDelete)
+      if (this.selectedEditActivity.name === 'Always Bring') {
+        console.log('Cannot delete this')
+      } else {
+        console.log('delete')
+        const idToDelete = this.selectedEditActivity.id
+
+        this.deleteUserActivity(idToDelete)
+      }
+    },
+    setSelectedEditActivityMoo(item) {
+      console.log(`moo${item}`)
+      this.setSelectedEditActivity(item)
     },
     deleteItem(item) {
       console.log(`delete Item: ${item}`)
+      const updateItem = cloneDeep(this.selectedEditActivity)
+      const index = updateItem.items.findIndex(
+        element => element.name === item.name
+      )
+      updateItem.items.splice(index, 1)
+      this.updateUserActivity(updateItem)
     },
     addItem() {
       // TODO add input validation
@@ -119,7 +155,7 @@ export default {
         name: this.itemName
       }
       console.log(newItem)
-      const updateItem = cloneDeep(this.selectedActivity)
+      const updateItem = cloneDeep(this.selectedEditActivity)
 
       updateItem.items.push(newItem)
       this.updateUserActivity(updateItem)

@@ -8,16 +8,18 @@
           >Do you bring everything?</v-card-title
         >
         <Checklist />
+        <ActivityList />
       </v-card-text>
     </v-card>
   </div>
 </template>
 
 <script>
-import Checklist from '@/components/Dashboard/Checklist'
+import Checklist from '@/components/Dashboard/PocketView/Checklist'
+import ActivityList from './PocketView/ActivityList.vue'
 
 export default {
-  components: { Checklist }
+  components: { Checklist, ActivityList }
 }
 </script>
 
