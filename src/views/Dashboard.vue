@@ -3,6 +3,7 @@
     <v-row>
       <UserCard class="mt-4" />
       <EditCard class="mt-4" />
+      <EditCard class="mt-4" />
     </v-row>
     <div class="page-wrapper">
       <h1 class="products-page-title">Dashboard page</h1>

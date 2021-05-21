@@ -1,9 +1,11 @@
 <template>
   <div>
     <v-data-table
+      v-model="selected"
       :headers="headers"
       :items="itemList"
       :items-per-page="5000"
+      item-key="name"
       hide-default-footer
       hide-default-header
       show-select
@@ -52,7 +54,8 @@ export default {
           id: 134322,
           rank: 1
         }
-      ]
+      ],
+      selected: {}
     }
   },
   computed: {
@@ -60,14 +63,16 @@ export default {
     ...mapState('activities', ['activities', 'selectedEditActivity']),
     ...mapState('app', ['networkOnLine']),
     itemList() {
-      if (this.activities) {
-        const index = this.activities.findIndex(
-          element => element.name === 'Always Bring'
-        )
-        console.log(index)
-        return this.activities[index].items
-      }
-      return []
+      // if (this.activities) {
+      //   const index = this.activities.findIndex(
+      //     element => element.name === 'Always Bring'
+      //   )
+      //   console.log(index)
+      //   return this.activities[index].items
+      // }
+      // return []
+
+      return this.selectedEditActivity.items
     }
   },
   methods: {
