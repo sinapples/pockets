@@ -48,28 +48,6 @@ jobs:
           name: 'Run linter'
           command: npm run lint
 
-  run-unit-tests:
-    executor: default-executor
-    steps:
-      - attach_workspace:
-          at: .
-      - run:
-          name: 'Run unit tests'
-          command: npm run test:unit
-
-  run-e2e-tests:
-    executor: default-executor
-    steps:
-      - attach_workspace:
-          at: .
-      - restore_cache:
-          keys:
-            - v2-deps-{{ checksum "package-lock.json" }}
-            - v2-deps
-      - run:
-          name: 'Run e2e tests'
-          command: npm run test:e2e:headless
-
   build:
     executor: default-executor
     steps:
