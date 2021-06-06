@@ -36,12 +36,12 @@ export default {
     }
   },
 
-  watch: {
-    itemList() {
-      console.log('watch moo')
-      this.selected = []
-    }
-  },
+  // watch: {
+  //   itemList() {
+  //     console.log('watch moo')
+  //     this.selected = []
+  //   }
+  // },
   computed: {
     ...mapGetters('activities', ['isActivityDeletionPending']),
     ...mapState('activities', ['activities', 'selectedEditActivity']),
@@ -70,9 +70,13 @@ export default {
     },
 
     alwaysBring() {
-      return this.activities.find(item => {
-        return item.name === 'Always Bring'
-      }).items
+      if (this.activities) {
+        return this.activities.find(item => {
+          return item.name === 'Always Bring'
+        }).items
+      }
+
+      return []
     }
   },
   methods: {
