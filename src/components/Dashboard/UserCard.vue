@@ -11,19 +11,19 @@
       </v-card-text>
     </v-card>
     <v-card>
-      <ActivityList />
+      <!-- <ActivityList /> -->
     </v-card>
   </div>
 </template>
 
 <script>
 import Checklist from '@/components/Dashboard/PocketView/Checklist'
-import ActivityList from './PocketView/ActivityList.vue'
+// import ActivityList from './PocketView/ActivityList.vue'
 
 export default {
   components: {
-    Checklist,
-    ActivityList
+    Checklist
+    // ActivityList
   }
 }
 </script>

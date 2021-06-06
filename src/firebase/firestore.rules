@@ -14,5 +14,17 @@ service cloud.firestore {
       allow create: if authenticated() && request.auth.uid == userId;
       allow update, delete: if authenticated() && request.auth.uid == userId;
     }
+    match /users/{userId}/activities/{activitiesId} {
+      allow get: if authenticated() && request.auth.uid == userId;
+			allow list: if authenticated() && request.auth.uid == userId;
+      allow create: if authenticated() && request.auth.uid == userId;
+      allow update, delete: if authenticated() && request.auth.uid == userId;
+    }
+    match /users/{userId}/activities/{activitiesId}/items/{itemId} {
+      allow get: if authenticated() && request.auth.uid == userId;
+			allow list: if authenticated() && request.auth.uid == userId;
+      allow create: if authenticated() && request.auth.uid == userId;
+      allow update, delete: if authenticated() && request.auth.uid == userId;
+    }
   }
 }

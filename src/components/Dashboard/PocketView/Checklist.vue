@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- {{ alwaysBring }} -->
     <span v-if="haveEverything"> You are ready to go </span>
     <v-data-table
       v-model="selected"
@@ -47,10 +48,13 @@ export default {
     ...mapState('app', ['networkOnLine']),
 
     haveEverything() {
-      return (
-        this.itemList.length === this.selected.length &&
-        this.itemList.length !== 0
-      )
+      if (this.itemList) {
+        return (
+          this.itemList.length === this.selected.length &&
+          this.itemList.length !== 0
+        )
+      }
+      return false
     },
     itemList() {
       // if (this.activities) {
@@ -62,7 +66,13 @@ export default {
       // }
       // return []
 
-      return this.selectedEditActivity.items
+      return this.alwaysBring.concat(this.selectedEditActivity.items)
+    },
+
+    alwaysBring() {
+      return this.activities.find(item => {
+        return item.name === 'Always Bring'
+      }).items
     }
   },
   methods: {
