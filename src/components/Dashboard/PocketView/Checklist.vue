@@ -1,5 +1,6 @@
 <template>
   <div>
+    <span v-if="haveEverything"> You are ready to go </span>
     <v-data-table
       v-model="selected"
       :headers="headers"
@@ -29,39 +30,28 @@ export default {
           value: 'name'
         }
       ],
-      desserts: [
-        {
-          name: 'Wallet',
-          icon: 'keys',
-          id: 122,
-          rank: 1
-        },
-        {
-          name: 'Phone',
-          icon: 'keys',
-          id: 132322,
-          rank: 1
-        },
-        {
-          name: 'Keys',
-          icon: 'keys',
-          id: 1433222,
-          rank: 1
-        },
-        {
-          name: 'Mask',
-          icon: 'keys',
-          id: 134322,
-          rank: 1
-        }
-      ],
-      selected: {}
+
+      selected: []
+    }
+  },
+
+  watch: {
+    itemList() {
+      console.log('watch moo')
+      this.selected = []
     }
   },
   computed: {
     ...mapGetters('activities', ['isActivityDeletionPending']),
     ...mapState('activities', ['activities', 'selectedEditActivity']),
     ...mapState('app', ['networkOnLine']),
+
+    haveEverything() {
+      return (
+        this.itemList.length === this.selected.length &&
+        this.itemList.length !== 0
+      )
+    },
     itemList() {
       // if (this.activities) {
       //   const index = this.activities.findIndex(

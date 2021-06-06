@@ -17,23 +17,11 @@
               class="bigButton"
               :hover="true"
               max-width="200px"
-              :color="getColor()"
+              max-height="200px"
+              :color="activity.color"
               @click="onClick"
             >
               <v-card-title>
-                <v-spacer></v-spacer>
-                <v-btn
-                  color="white"
-                  fab
-                  icon
-                  x-small
-                  dark
-                  depressed
-                  @click.stop="openEdit"
-                >
-                  <v-icon large color="white">{{ activity.icon }}</v-icon>
-                </v-btn>
-
                 <v-card-text class="name">{{ activity.name }}</v-card-text>
               </v-card-title>
             </v-card>

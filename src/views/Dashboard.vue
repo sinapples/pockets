@@ -3,25 +3,24 @@
     <v-row>
       <UserCard class="mt-4" />
       <EditCard class="mt-4" />
-      <EditCard class="mt-4" />
     </v-row>
-    <div class="page-wrapper">
+    <!-- <div class="page-wrapper">
       <h1 class="products-page-title">Dashboard page</h1>
       <product-list class="product-list"></product-list>
       <add-product v-if="networkOnLine"></add-product>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
-import ProductList from '@/components/ProductList'
-import AddProduct from '@/components/AddProduct'
+// import ProductList from '@/components/ProductList'
+// import AddProduct from '@/components/AddProduct'
 import UserCard from '@/components/Dashboard/UserCard'
 import EditCard from '@/components/Dashboard/EditCard'
 
 export default {
-  components: { ProductList, AddProduct, UserCard, EditCard },
+  components: { UserCard, EditCard },
   computed: mapState('app', ['networkOnLine'])
 }
 </script>
