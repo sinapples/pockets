@@ -1,9 +1,9 @@
 <template>
   <v-app id="app">
     <nav-bar></nav-bar>
-    <div class="main-wrapper">
-      <router-view />
-    </div>
+    <!-- <div class="main-wrapper"> -->
+    <router-view />
+    <!-- </div> -->
 
     <new-content-available-toastr
       v-if="newContentAvailable"
