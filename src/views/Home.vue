@@ -8,14 +8,14 @@
         <v-card color="primary" rounded="xl">
           <v-card-title>
             <h1>
-              Welcome to Pockets
+              Pockets
             </h1>
           </v-card-title>
         </v-card>
         <br />
         <router-link to="/dashboard">
           <v-btn>
-            <v-icon color="black" fab>mdi-chevron-double-down</v-icon>
+            <v-icon color="black" fab>mdi-cards</v-icon>
             <span>
               {{ user ? 'Dashboard' : 'Get started' }}
             </span>
