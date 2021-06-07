@@ -13,7 +13,14 @@
           </v-card-title>
         </v-card>
         <br />
-        <v-icon color="black" fab>mdi-chevron-double-down</v-icon>
+        <router-link to="/dashboard">
+          <v-btn>
+            <v-icon color="black" fab>mdi-chevron-double-down</v-icon>
+            <span>
+              {{ user ? 'Dashboard' : 'Get started' }}
+            </span>
+          </v-btn>
+        </router-link>
       </div>
     </v-parallax>
     <v-container class="text-center my-8">
@@ -145,7 +152,10 @@ export default {
       ]
     }
   },
-  computed: mapState('app', ['appTitle'])
+  computed: {
+    ...mapState('app', ['appTitle']),
+    ...mapState('authentication', ['user'])
+  }
 }
 </script>
 

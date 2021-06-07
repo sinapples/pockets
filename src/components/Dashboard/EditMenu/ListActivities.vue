@@ -6,7 +6,6 @@
 
     <v-chip-group
       v-model="selectedChip"
-      class="px-8"
       mandatory
       show-arrows
       center-active
