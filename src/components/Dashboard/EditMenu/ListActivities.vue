@@ -3,7 +3,7 @@
     <div class="text-center">
       <h2>Activity List</h2>
     </div>
-    {{ user }}
+
     <v-chip-group
       v-model="selectedChip"
       class="px-8"
@@ -110,7 +110,7 @@ export default {
   computed: {
     ...mapGetters('activities', ['isActivityDeletionPending']),
     ...mapState('activities', ['activities', 'selectedEditActivity']),
-    ...mapState('authentication', ['user']),
+
     ...mapState('app', ['networkOnLine']),
     hasItems() {
       return this.selectedEditActivity.items !== undefined
@@ -165,6 +165,7 @@ export default {
 
       updateItem.items.push(newItem)
       this.updateUserActivity(updateItem)
+      this.itemName = ''
     }
   }
 }

@@ -13,20 +13,20 @@
       </v-card-text>
     </v-card>
     <v-card>
-      <!-- <ActivityList /> -->
+      <ActivityList />
     </v-card>
   </div>
 </template>
 
 <script>
 import Checklist from '@/components/Dashboard/PocketView/Checklist'
-// import ActivityList from './PocketView/ActivityList.vue'
+import ActivityList from './PocketView/ActivityList.vue'
 import { mapState } from 'vuex'
 
 export default {
   components: {
-    Checklist
-    // ActivityList
+    Checklist,
+    ActivityList
   },
   computed: {
     ...mapState('authentication', ['user']),

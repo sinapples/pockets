@@ -45,7 +45,11 @@ export default {
   // },
   computed: {
     ...mapGetters('activities', ['isActivityDeletionPending']),
-    ...mapState('activities', ['activities', 'selectedEditActivity']),
+    ...mapState('activities', [
+      'activities',
+      'selectedEditActivity',
+      'selectedActivities'
+    ]),
     ...mapState('app', ['networkOnLine']),
 
     haveEverything() {
@@ -58,16 +62,30 @@ export default {
       return false
     },
     itemList() {
-      // if (this.activities) {
-      //   const index = this.activities.findIndex(
-      //     element => element.name === 'Always Bring'
-      //   )
-      //   console.log(index)
-      //   return this.activities[index].items
-      // }
-      // return []
-
-      return this.alwaysBring.concat(this.selectedEditActivity.items)
+      let list = []
+      list = this.alwaysBring
+      // const moo = []
+      if (this.selectedActivities.length > 0) {
+        console.log('hello')
+        for (
+          let index = 0;
+          index < this.selectedActivities.length;
+          index += 1
+        ) {
+          const id = this.selectedActivities[index]
+          console.log(`found${id}`)
+          const selected = this.activities.find(item => {
+            return item.id === id
+          })
+          if (selected) {
+            list = list.concat(selected.items)
+          }
+        }
+        // list.concat(moo)
+        console.log(list)
+        return list
+      }
+      return list
     },
 
     alwaysBring() {

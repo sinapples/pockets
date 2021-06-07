@@ -1,5 +1,5 @@
 import UserActivitiesDB from '@/firebase/user-activities-db'
-
+// Calls the API and then call mutations to change the state
 export default {
   /**
    * Fetch activities of current loggedin user

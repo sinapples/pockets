@@ -1,4 +1,6 @@
 export default {
+  // Changes the state
+
   /* Activity input name */
   setActivityNameToCreate: (state, activityNameToCreate) =>
     (state.activityNameToCreate = activityNameToCreate),
@@ -48,15 +50,14 @@ export default {
     } else {
       state.selectedEditActivity = selectedEditActivity
     }
+  },
 
-    // if (selectedEditActivity !== null) {
-    //   console.log(`setSelectedEditActivity: ${selectedEditActivity}`)
-    // }
-    // if (state.selectedEditActivity === null || state.activities.length > 0) {
-    //   console.log(`setSelectedEditActivity: ${selectedEditActivity}`)
-    //   ;[state.selectedEditActivity] = [state.activities]
-    // } else {
-    //   state.selectedEditActivity = {}
-    // }
+  addRemoveSelectedActivity: (state, id) => {
+    const index = state.selectedActivities.findIndex(item => item === id)
+    if (index === -1) {
+      state.selectedActivities.push(id)
+    } else {
+      state.selectedActivities.splice(index, 1)
+    }
   }
 }

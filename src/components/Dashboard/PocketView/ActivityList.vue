@@ -1,29 +1,29 @@
 <template>
   <v-card class="mt-4">
     <v-card-title class="text-center">
-      Activity List
+      Where are you going today?
     </v-card-title>
+
     <v-card-text>
       <v-row class="p-1">
         <span
           v-for="activity in activities"
           :key="activity.id"
-          class="bigButton"
           :value="activity"
         >
           <v-col class="pa-1">
             <v-card
               rounded="xl"
-              class="bigButton"
               :hover="true"
-              max-width="200px"
-              max-height="200px"
+              width="180px"
+              height="100px"
               :color="activity.color"
-              @click="onClick"
+              @click="onClick(activity)"
             >
-              <v-card-title>
-                <v-card-text class="name">{{ activity.name }}</v-card-text>
+              <v-card-title class="pb-0">
+                <v-spacer></v-spacer><v-icon small>{{ icon(activity) }}</v-icon>
               </v-card-title>
+              <v-card-text class="name">{{ activity.name }}</v-card-text>
             </v-card>
           </v-col>
         </span>
@@ -34,7 +34,7 @@
 
 <script>
 // import activities from '@/store/activities'
-import { mapState, mapActions, mapGetters, mapMutations } from 'vuex'
+import { mapState, mapGetters, mapMutations } from 'vuex'
 
 export default {
   data() {
@@ -42,7 +42,7 @@ export default {
   },
   computed: {
     ...mapGetters('activities', ['isActivityDeletionPending']),
-    ...mapState('activities', ['activities', 'selectedEditActivity']),
+    ...mapState('activities', ['activities', 'selectedActivities']),
     ...mapState('app', ['networkOnLine']),
     itemList() {
       if (this.activities) {
@@ -56,20 +56,22 @@ export default {
     }
   },
   methods: {
-    ...mapMutations('activities', ['setSelectedEditActivity']),
-    ...mapActions('activities', ['deleteUserActivity', 'updateUserActivity']),
+    ...mapMutations('activities', [
+      'setSelectedEditActivity',
+      'addRemoveSelectedActivity'
+    ]),
 
-    openEdit() {
-      alert('edit menu')
+    icon(item) {
+      return this.selectedActivities.findIndex(id => id === item.id) === -1
+        ? 'mdi-checkbox-blank-circle-outline'
+        : 'mdi-check-circle-outline'
     },
-    onClick() {
-      this.icon = this.elevation
-        ? 'mdi-check-circle-outline'
-        : 'mdi-checkbox-blank-circle-outline'
-      this.elevation = !this.depressed ? 20 : 0
-      this.depressed = !this.depressed
-      this.outlined = !this.outlined
-      this.$emit('emitLocationSelected', this.name)
+    onClick(item) {
+      // this.icon = this.elevation
+      //   ? 'mdi-check-circle-outline'
+      //   : 'mdi-checkbox-blank-circle-outline'
+      console.log(item.id)
+      this.addRemoveSelectedActivity(item.id)
     },
     clearList() {
       this.selected = []
@@ -101,7 +103,8 @@ export default {
   /* padding-bottom:16% ; */
   /* padding-top:0px ; */
   text-align: center;
-
+  word-wrap: normal;
+  overflow-wrap: normal;
   font-size: 20px;
   color: white !important;
 }
@@ -109,7 +112,7 @@ export default {
 .bigButton {
   /* padding: 50px !important; */
   /* padding-top: 60px !important; */
-  padding-bottom: 20px !important;
+  /* padding-bottom: 20px !important; */
   /* margin: 1px; */
 }
 </style>
