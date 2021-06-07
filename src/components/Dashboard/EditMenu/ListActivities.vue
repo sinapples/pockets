@@ -3,7 +3,7 @@
     <div class="text-center">
       <h2>Activity List</h2>
     </div>
-
+    {{ user }}
     <v-chip-group
       v-model="selectedChip"
       class="px-8"
@@ -42,8 +42,7 @@
         </v-sheet>
 
         <div class="pa-4">
-          <span v-if="selectedEditActivity.items.length > 0" class="subheading"
-            >Items to bring</span
+          <span v-if="hasItems" class="subheading">Items to bring</span
           ><span v-else class="subheading">Item list empty</span>
 
           <v-chip-group active-class="primary--text" column>
@@ -59,7 +58,7 @@
             </v-chip>
           </v-chip-group>
           <v-divider class="py-2"></v-divider>
-          <div v-if="editMode || selectedEditActivity.items.length === 0">
+          <div v-if="editMode || hasItems">
             <v-row>
               <v-col>
                 <v-text-field
@@ -111,7 +110,13 @@ export default {
   computed: {
     ...mapGetters('activities', ['isActivityDeletionPending']),
     ...mapState('activities', ['activities', 'selectedEditActivity']),
-    ...mapState('app', ['networkOnLine'])
+    ...mapState('authentication', ['user']),
+    ...mapState('app', ['networkOnLine']),
+    hasItems() {
+      return this.selectedEditActivity.items !== undefined
+        ? this.selectedEditActivity.items.length > 0
+        : false
+    }
   },
   watch: {
     selectedEditActivity(newItem) {
@@ -126,6 +131,7 @@ export default {
   methods: {
     ...mapMutations('activities', ['setSelectedEditActivity']),
     ...mapActions('activities', ['deleteUserActivity', 'updateUserActivity']),
+
     deleteActivity() {
       if (this.selectedEditActivity.name === 'Always Bring') {
         console.log('Cannot delete this')

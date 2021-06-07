@@ -12,6 +12,7 @@
       hide-default-header
       show-select
       class="elevation-1"
+      @click:row="rowClick"
     ></v-data-table>
   </div>
 </template>
@@ -81,7 +82,18 @@ export default {
   },
   methods: {
     ...mapMutations('activities', ['setSelectedEditActivity']),
-    ...mapActions('activities', ['deleteUserActivity', 'updateUserActivity'])
+    ...mapActions('activities', ['deleteUserActivity', 'updateUserActivity']),
+    rowClick(item) {
+      const index = this.selected.indexOf(item)
+      if (index !== -1) {
+        this.selected.splice(index)
+        console.log('good')
+      } else {
+        console.log('bad')
+        this.selected.push(item)
+      }
+      console.log(this.selected)
+    }
   }
 }
 </script>

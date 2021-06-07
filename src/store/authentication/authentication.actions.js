@@ -17,7 +17,7 @@ export default {
     commit('setUser', user)
     dispatch('products/getUserProducts', null, { root: true })
     dispatch('activities/getUserActivities', null, { root: true })
-    dispatch('activities/updateSelectedEditActivity', null)
+    // dispatch('activities/updateSelectedEditActivity', null)
   },
 
   /**
