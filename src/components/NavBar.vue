@@ -1,10 +1,30 @@
 <template>
-  <header class="navbar" :class="{ offline: !networkOnLine }">
-    <router-link to="/home">
-      <img alt="logo-bento" class="logo" src="@/assets/img/bento-starter.svg" />
-      <span class="site-name title-desktop">{{ appTitle }}</span>
-      <span class="site-name title-mobile">{{ appShortTitle }}</span>
-    </router-link>
+  <v-app-bar
+    app
+    class="navbar"
+    color="primary"
+    :class="{ offline: !networkOnLine }"
+  >
+    <span v-if="newContentAvailable">
+      <new-content-available-toastr
+        class="site-name title-desktop"
+        :refreshing-app="refreshingApp"
+        @refresh="serviceWorkerSkipWaiting"
+      ></new-content-available-toastr>
+      <v-spacer></v-spacer>
+    </span>
+    <span v-else>
+      <router-link to="/home">
+        <!-- <img
+          alt="logo-bento"
+          class="logo"
+          src="@/assets/img/bento-starter.svg"
+        /> -->
+        <v-icon color="black">mdi-bag-personal</v-icon>
+        <span class="site-name title-desktop">{{ appTitle }}</span>
+        <span class="site-name title-mobile">{{ appShortTitle }}</span>
+      </router-link>
+    </span>
     <div class="links">
       <nav class="nav-links">
         <div class="nav-item">
@@ -30,20 +50,30 @@
         alt="Avatar"
       />
     </div>
-  </header>
+  </v-app-bar>
 </template>
 
 <script>
 import firebase from 'firebase/app'
-import { mapGetters, mapState } from 'vuex'
+
+import NewContentAvailableToastr from '@/components/NewContentAvailableToastr'
+import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
+  components: { NewContentAvailableToastr },
   computed: {
     ...mapGetters('authentication', ['isUserLoggedIn']),
+    ...mapGetters('app', ['newContentAvailable']),
     ...mapState('authentication', ['user']),
-    ...mapState('app', ['networkOnLine', 'appTitle', 'appShortTitle'])
+    ...mapState('app', [
+      'networkOnLine',
+      'appTitle',
+      'appShortTitle',
+      'refreshingApp'
+    ])
   },
   methods: {
+    ...mapActions('app', ['serviceWorkerSkipWaiting']),
     async logout() {
       await firebase.auth().signOut()
     }
@@ -55,18 +85,11 @@ export default {
 @import '@/theme/variables.scss';
 
 .navbar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 20;
-  right: 0;
-  height: $navbar-height;
-  background-color: $navbar-color;
-  box-sizing: border-box;
-  border-bottom: 1px solid #eaecef;
-  padding: 0.7rem 1.5rem;
-  line-height: 2.2rem;
-
+  .new-content-available-toastr {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+  }
   a {
     display: flex;
     align-items: center;

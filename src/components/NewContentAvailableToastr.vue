@@ -1,11 +1,14 @@
 <template>
-  <div class="wrapper">
+  <div>
     <template v-if="refreshingApp">
-      Loading new content...
+      <v-btn class="refresh-btn" color="secondary" :ripple="false">
+        Loading new content
+      </v-btn>
     </template>
     <template v-else>
-      New content available. Please
-      <span class="refresh-btn" @click="$emit('refresh')">REFRESH</span>
+      <v-btn class="refresh-btn" color="secondary" @click="$emit('refresh')">
+        Tap to Update
+      </v-btn>
     </template>
   </div>
 </template>
@@ -25,10 +28,10 @@ export default {
   color: white;
   display: inline-block;
   border-radius: 4px;
-
-  .refresh-btn {
-    text-decoration: underline;
-    cursor: pointer;
-  }
+}
+.refresh-btn {
+  cursor: pointer;
+  text-transform: none;
+  letter-spacing: 0px;
 }
 </style>
