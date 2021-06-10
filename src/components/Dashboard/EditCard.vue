@@ -1,31 +1,38 @@
 <template>
   <div class="page-wrapper">
     <v-card>
-      <v-card-title class="text-center">Edit Items</v-card-title>
+      <v-sheet color="secondary" dark>
+        <v-card-title>
+          <v-icon class="mr-2">mdi-cog</v-icon>Settings
 
-      <v-card-title style="color:black">
-        New activity
-      </v-card-title>
-      <v-card-text>
-        <AddActivity />
+          <v-spacer />
+          <v-icon large @click="editMode = !editMode">{{
+            editMode ? 'mdi-chevron-up' : 'mdi-chevron-down'
+          }}</v-icon>
+        </v-card-title>
+      </v-sheet>
 
-        <ListActivities />
-      </v-card-text>
+      <div v-if="editMode">
+        <v-card-text>
+          <ListActivities />
+        </v-card-text>
+      </div>
     </v-card>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
-import AddActivity from '@/components/Dashboard/EditMenu/AddActivity'
+// import AddActivity from '@/components/Dashboard/EditMenu/AddActivity'
 import ListActivities from '@/components/Dashboard/EditMenu/ListActivities'
 
 export default {
-  components: { AddActivity, ListActivities },
+  components: { ListActivities },
 
   data() {
     return {
       select: '',
+      editMode: !false,
       headers: [
         {
           text: 'name',
