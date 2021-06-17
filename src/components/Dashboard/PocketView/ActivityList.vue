@@ -17,7 +17,7 @@
               :hover="true"
               width="180px"
               height="100px"
-              :color="activity.color"
+              :color="color(activity)"
               @click="onClick(activity)"
             >
               <v-card-title class="pb-0">
@@ -60,6 +60,11 @@ export default {
       'setSelectedEditActivity',
       'addRemoveSelectedActivity'
     ]),
+    color(item) {
+      return this.selectedActivities.findIndex(id => id === item.id) === -1
+        ? 'secondary'
+        : 'primary'
+    },
 
     icon(item) {
       return this.selectedActivities.findIndex(id => id === item.id) === -1
@@ -107,12 +112,5 @@ export default {
   overflow-wrap: normal;
   font-size: 20px;
   color: white !important;
-}
-
-.bigButton {
-  /* padding: 50px !important; */
-  /* padding-top: 60px !important; */
-  /* padding-bottom: 20px !important; */
-  /* margin: 1px; */
 }
 </style>
