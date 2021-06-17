@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="schedule">
     <!-- {{ alwaysBring }} -->
     <span v-if="haveEverything"> You are ready to go </span>
     <v-data-table
@@ -11,6 +11,7 @@
       hide-default-footer
       hide-default-header
       show-select
+      item-class="schedule-big"
       class="elevation-1"
       @click:row="rowClick"
     ></v-data-table>
@@ -116,4 +117,10 @@ export default {
 }
 </script>
 
-<style></style>
+<style scoped>
+.schedule /deep/ .big {
+  font-size: 180px !important;
+  color: aqua !important;
+  background-color: #98d5e4 !important;
+}
+</style>
