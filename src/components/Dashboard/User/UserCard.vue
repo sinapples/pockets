@@ -17,9 +17,7 @@
 
       <v-card-text>
         <v-row align="center">
-          <v-col class="text-h2" cols="6">
-            23&deg;C
-          </v-col>
+          <v-col class="text-h2" cols="6"> {{ weather }}&deg;F </v-col>
           <v-col cols="6">
             <v-img
               src="https://cdn.vuetifyjs.com/images/cards/sun.png"
@@ -29,34 +27,27 @@
           </v-col>
         </v-row>
       </v-card-text>
+      <v-card-actions>
+        <v-btn @click="getWeather"> Weather</v-btn>
+      </v-card-actions>
     </v-card>
-    <v-card>
-      <ActivityList />
-    </v-card>
-    <v-card>
-      <v-card-text>
-        <v-card-title style="color:black" class="text-center"
-          >Do you bring everything?</v-card-title
-        >
-        <ItemList />
-      </v-card-text>
-    </v-card>
-
-    <!-- <Checklist /> -->
   </div>
 </template>
 
 <script>
 // import Checklist from '@/components/Dashboard/PocketView/Checklist'
-import ItemList from '@/components/Dashboard/PocketView/ItemList'
-import ActivityList from './PocketView/ActivityList.vue'
+
 import { mapState } from 'vuex'
+import axios from 'axios'
 
 export default {
-  components: {
-    ItemList,
-    ActivityList
+  components: {},
+  data() {
+    return {
+      weather: 0
+    }
   },
+
   computed: {
     ...mapState('authentication', ['user']),
     displayName() {
@@ -66,6 +57,24 @@ export default {
         return this.user.displayName.substring(0, index)
       }
       return ''
+    }
+  },
+  mounted() {
+    this.getWeather()
+  },
+  methods: {
+    async getWeather() {
+      //   const city = 20853
+      const apiKey = 'aa424f9dbca59def4e1f2581126381c6'
+      //   const url = `https://api.openweathermap.org/data/2.5/weather?appid=${apiKey}&units=metric&q=${city}`
+      const forecastUrl = `https://api.openweathermap.org/data/2.5/weather?zip=20853,us&appid=${apiKey}&units=imperial`
+
+      //   const moo = await axios.get(url)
+      const weather = await axios.get(forecastUrl)
+      //   console.log(moo)
+      console.log(weather.data.main)
+      this.weather = weather.data.main.temp
+      //   return this.weather
     }
   }
 }

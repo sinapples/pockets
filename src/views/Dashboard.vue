@@ -2,6 +2,7 @@
   <div class="main-wrapper">
     <v-row>
       <UserCard class="mt-4" />
+      <PocketCard class="mt-4" />
       <EditCard class="mt-4" />
     </v-row>
     <!-- <div class="page-wrapper">
@@ -16,11 +17,12 @@
 import { mapState } from 'vuex'
 // import ProductList from '@/components/ProductList'
 // import AddProduct from '@/components/AddProduct'
-import UserCard from '@/components/Dashboard/UserCard'
+import UserCard from '@/components/Dashboard/User/UserCard'
+import PocketCard from '@/components/Dashboard/PocketCard'
 import EditCard from '@/components/Dashboard/EditCard'
 
 export default {
-  components: { UserCard, EditCard },
+  components: { UserCard, EditCard, PocketCard },
   computed: mapState('app', ['networkOnLine'])
 }
 </script>

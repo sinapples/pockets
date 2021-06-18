@@ -90,7 +90,7 @@ export default {
     itemList() {
       console.log('watch moo')
 
-      // this.panel = [...Array(this.itemList.length).keys()].map((k, i) => i)
+      this.panel = [...Array(this.itemList.length).keys()].map((k, i) => i)
     }
   },
   computed: {
@@ -166,13 +166,7 @@ export default {
       }
       console.log(this.selected)
     },
-    all() {
-      this.panel = [...Array(this.itemList.length).keys()].map((k, i) => i)
-    },
-    // Reset the panel
-    none() {
-      this.panel = []
-    },
+
     isBrought({ name }) {
       console.log(`>>>${name}`)
       return this.selected.indexOf(name) !== -1

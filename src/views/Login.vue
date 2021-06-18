@@ -18,7 +18,7 @@
             <v-card class="mx-auto" max-width="400">
               <v-card-title class="headline"> Login/Register</v-card-title>
               <v-card-text>
-                <v-form>
+                <!-- <v-form>
                   <v-text-field
                     outlined
                     dense
@@ -37,48 +37,32 @@
                   </v-card-actions>
 
                   <v-divider class="pb-5">or</v-divider>
-                  <div class="text-center">
-                    <!-- <v-btn color="" class="px-10" @click="submit">
-                    <v-icon class="pr-2">mdi-google</v-icon> Continue with
-                    Google</v-btn
-                  > -->
+                  <div class="text-center"> -->
+                <!-- Loader -->
+                <div v-show="user === undefined" data-test="loader">
+                  Authenticating...
+                </div>
 
-                    <!-- Loader -->
-                    <div v-show="user === undefined" data-test="loader">
-                      Authenticating...
-                    </div>
+                <!-- Offline instruction -->
+                <div v-show="!networkOnLine" data-test="offline-instruction">
+                  Please check your connection, login feature is not available
+                  offline.
+                </div>
 
-                    <!-- Offline instruction -->
-                    <div
-                      v-show="!networkOnLine"
-                      data-test="offline-instruction"
-                    >
-                      Please check your connection, login feature is not
-                      available offline.
-                    </div>
+                <p v-if="loginError">{{ loginError }}</p>
 
-                    <p v-if="loginError">{{ loginError }}</p>
-                    <!-- Auth UI -->
-                    <!-- <div
-                    v-show="user !== undefined && !user && networkOnLine"
-                    data-test="login-btn"
-                    class="login-btn"
-                    @click="login"
-                  >
-                    Login with google
-                  </div> -->
-                    <v-btn
-                      v-show="user !== undefined && !user && networkOnLine"
-                      data-test="login-btn"
-                      color=""
-                      class="px-10"
-                      @click="login"
-                    >
-                      <v-icon class="pr-2">mdi-google</v-icon> Continue with
-                      Google</v-btn
-                    >
-                  </div>
-                </v-form>
+                <v-btn
+                  v-show="user !== undefined && !user && networkOnLine"
+                  data-test="login-btn"
+                  color=""
+                  class="px-10"
+                  @click="login"
+                >
+                  <v-icon class="pr-2">mdi-google</v-icon> Continue with
+                  Google</v-btn
+                >
+                <!-- </div> -->
+                <!-- </v-form> -->
               </v-card-text>
             </v-card>
           </v-col>

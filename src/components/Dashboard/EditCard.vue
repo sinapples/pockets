@@ -40,13 +40,6 @@ export default {
           sortable: false,
           value: 'name'
         }
-      ],
-      items: [
-        { displayName: 'Always Bring', name: 'default' },
-        { displayName: 'Work', name: 'work' },
-        { displayName: 'Gym', name: 'Gym' },
-        { displayName: 'Studying', name: 'Studying' },
-        { displayName: 'Shopping', name: 'Shopping' }
       ]
     }
   },
