@@ -24,5 +24,5 @@ jobs:
         run: npm run lint
       - name: Build project
         run: npm run build
-      - name: Check bundle size
-        run: npm run bundlesize
+      # - name: Check bundle size
+      #   run: npm run bundlesize
