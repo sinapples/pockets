@@ -3,7 +3,7 @@
     <v-row>
       <UserCard class="mt-4" />
       <PocketCard class="mt-4" />
-      <EditCard class="mt-4" />
+      <SettingsCard class="mt-4" />
     </v-row>
     <!-- <div class="page-wrapper">
       <h1 class="products-page-title">Dashboard page</h1>
@@ -17,12 +17,12 @@
 import { mapState } from 'vuex'
 // import ProductList from '@/components/ProductList'
 // import AddProduct from '@/components/AddProduct'
-import UserCard from '@/components/Dashboard/User/UserCard'
+import UserCard from '@/components/Dashboard/UserCard'
 import PocketCard from '@/components/Dashboard/PocketCard'
-import EditCard from '@/components/Dashboard/EditCard'
+import SettingsCard from '@/components/Dashboard/SettingsCard'
 
 export default {
-  components: { UserCard, EditCard, PocketCard },
+  components: { UserCard, SettingsCard, PocketCard },
   computed: mapState('app', ['networkOnLine'])
 }
 </script>

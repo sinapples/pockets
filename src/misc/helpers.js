@@ -13,10 +13,13 @@ export const createNewUserFromFirebaseAuthUser = async firebaseAuthUser => {
   const user = {
     displayName,
     photoURL,
-    email
+    email,
+    zipCode: 78701,
+    units: 'imperial'
   }
 
   const userObj = await userDb.create(user, firebaseAuthUser.uid)
+
   const userActivity = await new UsersActivities(userObj.id)
   await userActivity.create({
     name: 'Always Bring',

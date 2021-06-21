@@ -20,6 +20,15 @@ export default {
     // dispatch('activities/updateSelectedEditActivity', null)
   },
 
+  updateUser: async ({ commit }, updateData) => {
+    // const userFromFirebase = await new UsersDB().read(firebaseAuthUser.uid)
+    commit('setUserUpdating', true)
+    await new UsersDB().update(updateData)
+    const userFromFirebase = await new UsersDB().read(updateData.id)
+    commit('setUser', userFromFirebase)
+    commit('setUserUpdating', false)
+  },
+
   /**
    * Callback fired when user logout
    */

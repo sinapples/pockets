@@ -14,7 +14,11 @@
 
       <div v-if="editMode">
         <v-card-text>
-          <ListActivities />
+          <EditActivities />
+        </v-card-text>
+
+        <v-card-text>
+          <EditUserInfo />
         </v-card-text>
       </div>
     </v-card>
@@ -24,10 +28,11 @@
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
 // import AddActivity from '@/components/Dashboard/EditMenu/AddActivity'
-import ListActivities from '@/components/Dashboard/EditMenu/ListActivities'
+import EditActivities from '@/components/Dashboard/EditMenu/EditActivities'
+import EditUserInfo from '@/components/Dashboard/EditMenu/EditUserInfo'
 
 export default {
-  components: { ListActivities },
+  components: { EditActivities, EditUserInfo },
 
   data() {
     return {
