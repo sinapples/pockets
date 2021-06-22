@@ -1,17 +1,11 @@
 <template>
-  <div class="page-wrapper">
-    <v-card>
-      <v-list-item two-line>
-        <v-list-item-content>
-          <v-list-item-title class="text-h5">
-            {{ city }}
-          </v-list-item-title>
-          <v-list-item-subtitle>Currently</v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
-
-      <v-card-text>
-        <!-- Current Temp -->
+  <div>
+    <v-card-text class="pt-0">
+      <!-- Current Weather -->
+      <div class="text-h4 font-weight-light mb-2">
+        {{ city }}
+      </div>
+      <div class="text-h2 font-weight-light grey--text">
         <v-row align="center">
           <v-col class="text-h2" cols="6">
             {{ currentTemp }}&deg;{{ user.units == 'metric' ? 'C' : 'F' }}
@@ -24,43 +18,77 @@
             ></v-img>
           </v-col>
         </v-row>
+      </div>
+      <v-divider class="my-2"></v-divider>
+      <v-icon class="mr-2" small>
+        mdi-clock
+      </v-icon>
+      <span class="text-caption grey--text font-weight-light"
+        >Last weather update {{ lastWeatherMgs }}
+      </span>
 
-        <!-- Hourly -->
-        <v-slider
-          :max="6"
-          :tick-labels="hourLabels"
-          class="mx-4 mt-8"
-          :thumb-size="40"
-          thumb-label="always"
-          ticks
-        >
-          <template v-slot:thumb-label="{ value }">
-            {{ hourWeather[value] }}
-          </template>
-        </v-slider>
-      </v-card-text>
-      <v-card-actions>
-        <v-btn @click="getWeather"> Weather</v-btn>
-      </v-card-actions>
-    </v-card>
+      <!-- <v-sheet
+        class="v-sheet--offset mx-auto"
+        color="cyan"
+        elevation="12"
+        max-width="calc(100% - 32px)"
+      >
+        <v-sparkline
+          :labels="hourLabels"
+          :value="hourWeather"
+          show-labels
+          color="white"
+          line-width="2"
+          padding="16"
+        ></v-sparkline>
+      </v-sheet> -->
+    </v-card-text>
+    <HourlyWeather :weather-data="hourlyData" :units="user.units" />
+    <!-- End of card -->
   </div>
 </template>
 
 <script>
 // import Checklist from '@/components/Dashboard/PocketView/Checklist'
+import HourlyWeather from '@/components/Dashboard/User/HourlyWeather'
 
 import { mapState } from 'vuex'
 import axios from 'axios'
 import moment from 'moment'
 
+const gradients = [
+  ['#222'],
+  ['#42b3f4'],
+  ['red', 'orange', 'yellow'],
+  ['purple', 'violet'],
+  ['#00c6ff', '#F0F', '#FF0'],
+  ['#f72047', '#ffd200', '#1feaea']
+]
 export default {
-  components: {},
+  components: { HourlyWeather },
   data() {
     return {
       weather: 0,
       forecast: null,
       allData: null,
-      zipCode: 0
+      zipCode: 0,
+
+      lastWeatherCheck: new Date(),
+      lastWeatherMgs: '',
+      // line
+      width: 2,
+      radius: 10,
+      padding: 8,
+      lineCap: 'round',
+      gradient: gradients[5],
+      value: [200, 675, 410, 390, 310, 460, 250, 240],
+      gradientDirection: 'top',
+      labels: ['12am', '3am', '6am', '9am', '12pm', '3pm', '6pm', '9pm'],
+      gradients,
+      fill: false,
+      type: 'bar',
+
+      autoLineWidth: false
     }
   },
 
@@ -82,8 +110,9 @@ export default {
     },
     hourLabels() {
       if (this.forecast) {
-        const temps = this.forecast.list.map(jsonObject => {
-          return moment(jsonObject.dt).format('hh:mm')
+        const temps = this.forecast.list.slice(0, 6).map(jsonObject => {
+          return moment(jsonObject.dt_txt).format('LT')
+          // return jsonObject.dt_text
         })
 
         console.log('tmps')
@@ -93,9 +122,16 @@ export default {
       return [12, 34, 45]
       // return this.weather ? Math.round(this.weather.main.temp) : ''
     },
+    hourlyData() {
+      if (this.forecast) {
+        return this.forecast.list.slice(0, 6)
+      }
+      return []
+      // return this.weather ? Math.round(this.weather.main.temp) : ''
+    },
     hourWeather() {
       if (this.forecast) {
-        const temps = this.forecast.list.map(jsonObject => {
+        const temps = this.forecast.list.slice(0, 6).map(jsonObject => {
           return Math.round(jsonObject.main.temp)
         })
 
@@ -123,8 +159,13 @@ export default {
     }
     // this.getWeather()
     this.getWeather()
+    this.weatherTicker()
+    this.timeTicker()
   },
   methods: {
+    format(item) {
+      return moment(item).format('LLL')
+    },
     async getWeather() {
       if (this.user.zipCode === undefined || this.user.zipCode === null) {
         this.zipCode = 20853
@@ -152,9 +193,41 @@ export default {
       this.allData = allData.data
       this.forecast = forecast.data
       this.weather = weather.data
+    },
+
+    weatherTicker() {
+      this.moment = moment()
+      const minutesToRefesh = 30
+      const oneMinuteInMs = 60000
+      const timeToFetch = minutesToRefesh * oneMinuteInMs
+
+      setInterval(() => {
+        this.getWeather()
+
+        this.lastWeatherCheck = new Date()
+      }, timeToFetch)
+
+      // 60000 0
+    },
+    timeTicker() {
+      this.moment = moment()
+      const twoMinutes = 120000
+      setInterval(() => {
+        this.getlastWeatherTime()
+      }, twoMinutes)
+    },
+    getlastWeatherTime() {
+      // console.log(`last wather${this.lastWeatherCheck.getTime()}`)
+      // console.log(moment(this.lastWeatherCheck.getTime()).fromNow())
+      this.lastWeatherMgs = moment(this.lastWeatherCheck.getTime()).fromNow()
     }
   }
 }
 </script>
 
-<style></style>
+<style>
+.v-sheet--offset {
+  top: -24px;
+  position: relative;
+}
+</style>

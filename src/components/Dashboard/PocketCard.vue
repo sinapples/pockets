@@ -1,21 +1,17 @@
 <template>
-  <div>
-    <div class="page-wrapper">
-      <v-card>
-        <ActivityList />
-      </v-card>
+  <div class="page-wrapper">
+    <v-card>
+      <ActivityList />
 
-      <v-card>
-        <v-card-text>
-          <v-card-title style="color:black" class="text-center"
-            >Do you bring everything?</v-card-title
-          >
-          <ItemList />
-        </v-card-text>
-      </v-card>
+      <v-card-text>
+        <v-card-title style="color:black" class="text-center"
+          >Do you bring everything?</v-card-title
+        >
+        <ItemList />
+      </v-card-text>
+    </v-card>
 
-      <!-- <Checklist /> -->
-    </div>
+    <!-- <Checklist /> -->
   </div>
 </template>
 

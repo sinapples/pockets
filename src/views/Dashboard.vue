@@ -1,9 +1,14 @@
 <template>
   <div class="main-wrapper">
     <v-row>
+      <v-col cols="12"> </v-col>
       <UserCard class="mt-4" />
-      <PocketCard class="mt-4" />
-      <SettingsCard class="mt-4" />
+      <v-col cols="12">
+        <PocketCard class="mt-4" />
+      </v-col>
+      <v-col cols="12">
+        <SettingsCard class="mt-4" />
+      </v-col>
     </v-row>
     <!-- <div class="page-wrapper">
       <h1 class="products-page-title">Dashboard page</h1>
