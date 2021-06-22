@@ -1,15 +1,8 @@
 <template>
   <div class="page-wrapper">
-    <v-card>
-      <ActivityList />
+    <ActivityList />
 
-      <v-card-text>
-        <v-card-title style="color:black" class="text-center"
-          >Do you bring everything?</v-card-title
-        >
-        <ItemList />
-      </v-card-text>
-    </v-card>
+    <ItemList />
 
     <!-- <Checklist /> -->
   </div>

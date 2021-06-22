@@ -19,6 +19,7 @@
               </v-list-item-content>
             </v-list-item>
           </v-col>
+          <v-spacer />
           <!-- <div class="headline">
               <span>
                 {{ titleMessage() }}

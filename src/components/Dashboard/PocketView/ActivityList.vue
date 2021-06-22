@@ -1,11 +1,12 @@
 <template>
-  <v-card class="mt-4">
-    <v-card-title class="text-center">
-      Where are you going today?
-    </v-card-title>
-
-    <v-card-text>
-      <v-row class="p-1">
+  <v-card class="mt-4" color="primary">
+    <v-sheet color="primary  ">
+      <v-card-title>
+        <v-icon class="mr-2">mdi-home</v-icon> Where are you going today?
+      </v-card-title>
+    </v-sheet>
+    <v-card-text class="white text--primary">
+      <v-row justify="center">
         <span
           v-for="activity in activities"
           :key="activity.id"
@@ -15,8 +16,8 @@
             <v-card
               rounded="xl"
               :hover="true"
-              width="180px"
-              height="100px"
+              width="150px"
+              height="90px"
               :color="color(activity)"
               @click="onClick(activity)"
             >

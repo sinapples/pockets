@@ -3,11 +3,13 @@
     <!-- {{ alwaysBring }} -->
     <!-- <span v-if="haveEverything"> You are ready to go </span> -->
 
-    <span>
-      <!-- {{ JSON.stringify(itemList) }} -->
-      <!-- {{ selected }} -->
-    </span>
     <v-card>
+      <v-sheet dark color="secondary">
+        <v-card-title class="text-center"
+          >This is what you need today</v-card-title
+        >
+      </v-sheet>
+
       <v-card-actions>
         <v-btn depressed @click="selected = []">
           Reset List

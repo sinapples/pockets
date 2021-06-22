@@ -173,26 +173,39 @@ export default {
         this.zipCode = this.user.zipCode
       }
       //   const city = 20853
-      const apiKey = 'aa424f9dbca59def4e1f2581126381c6'
 
-      const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?zip=${
-        this.zipCode
-      },us&appid=${apiKey}&units=${this.user.units}`
-      const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?zip=${
-        this.zipCode
-      },us&appid=${apiKey}&units=${this.user.units}`
+      const apiKeys = [
+        'aa424f9dbca59def4e1f2581126381c6',
+        '74b11479b916f532948403e5b2c5a79e'
+      ]
+      apiKeys.forEach(async i => {
+        const apiKey = i
 
-      const weather = await axios.get(weatherUrl)
-      const forecast = await axios.get(forecastUrl)
-      const allInfo = `https://api.openweathermap.org/data/2.5/onecall?lat=${
-        forecast.data.city.coord.lat
-      }&lon=${forecast.data.city.coord.lon}&appid=${apiKey}`
-      const allData = await axios.get(allInfo)
+        try {
+          const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?zip=${
+            this.zipCode
+          },us&appid=${apiKey}&units=${this.user.units}`
+          const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?zip=${
+            this.zipCode
+          },us&appid=${apiKey}&units=${this.user.units}`
 
-      console.log({ forecast: forecast.data, weather: weather.data })
-      this.allData = allData.data
-      this.forecast = forecast.data
-      this.weather = weather.data
+          const weather = await axios.get(weatherUrl)
+          const forecast = await axios.get(forecastUrl)
+          const allInfo = `https://api.openweathermap.org/data/2.5/onecall?lat=${
+            forecast.data.city.coord.lat
+          }&lon=${forecast.data.city.coord.lon}&appid=${apiKey}`
+          const allData = await axios.get(allInfo)
+
+          console.log({ forecast: forecast.data, weather: weather.data })
+          this.allData = allData.data
+          this.forecast = forecast.data
+          this.weather = weather.data
+          this.getlastWeatherTime()
+          return
+        } catch (e) {
+          console.log(`Weather Error${e}`)
+        }
+      })
     },
 
     weatherTicker() {
@@ -217,7 +230,7 @@ export default {
       }, twoMinutes)
     },
     getlastWeatherTime() {
-      // console.log(`last wather${this.lastWeatherCheck.getTime()}`)
+      console.log(`last wather${this.lastWeatherCheck.getTime()}`)
       // console.log(moment(this.lastWeatherCheck.getTime()).fromNow())
       this.lastWeatherMgs = moment(this.lastWeatherCheck.getTime()).fromNow()
     }
