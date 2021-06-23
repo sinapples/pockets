@@ -1,48 +1,26 @@
 <template>
   <div>
-    <!-- {{ weatherData }} -->
     <v-expansion-panels>
       <v-expansion-panel>
         <v-expansion-panel-header>Hourly Weather</v-expansion-panel-header>
         <v-expansion-panel-content class="pl-0">
-          <v-row>
-            <v-col>
-              <!-- Timeline -->
-              <v-timeline
-                v-for="item in weatherData"
-                :key="item.dt"
-                align="start"
-                class="pl-0"
-              >
-                <v-timeline-item
-                  :icon="getIcon(item)"
-                  :color="getTempColor(item)"
-                >
-                  <v-card :color="getTempColor(item)" dense dark>
-                    <v-card-title class="text-body-1 py-1">
-                      {{ format(item.dt_txt) }}
-                    </v-card-title>
-                    <v-card-text class="white text--primary">
-                      <div>{{ item.weather[0].main }}</div>
+          <!-- Timeline -->
+          <v-timeline v-for="item in weatherData" :key="item.dt" align="start">
+            <v-timeline-item :icon="getIcon(item)" :color="getTempColor(item)">
+              <v-card :color="getTempColor(item)" dense dark>
+                <v-card-title class="text-body-1 py-1">
+                  {{ format(item.dt_txt) }}
+                </v-card-title>
+                <v-card-text class="white text--primary">
+                  <div>{{ item.weather[0].main }}</div>
 
-                      {{ Math.round(item.main.temp) }}&deg;{{
-                        units == 'metric' ? 'C' : 'F'
-                      }}
-                    </v-card-text>
-                  </v-card>
-                  <!-- <div>
-                    {{ format(item.dt_txt) }}
-                  </div>
-                  <div>
-                    {{ Math.round(item.main.temp) }}&deg;{{
-                      units == 'metric' ? 'C' : 'F'
-                    }}
-                  </div> -->
-                </v-timeline-item>
-              </v-timeline>
-            </v-col>
-            <v-spacer />
-          </v-row>
+                  {{ Math.round(item.main.temp) }}&deg;{{
+                    units == 'metric' ? 'C' : 'F'
+                  }}
+                </v-card-text>
+              </v-card>
+            </v-timeline-item>
+          </v-timeline>
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
