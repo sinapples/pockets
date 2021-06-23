@@ -7,7 +7,6 @@
   >
     <span v-if="newContentAvailable">
       <new-content-available-toastr
-        class="site-name title-desktop"
         :refreshing-app="refreshingApp"
         @refresh="serviceWorkerSkipWaiting"
       ></new-content-available-toastr>

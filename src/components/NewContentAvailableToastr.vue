@@ -1,16 +1,21 @@
 <template>
-  <div>
-    <template v-if="refreshingApp">
+  <span>
+    <span v-if="refreshingApp">
       <v-btn class="refresh-btn" color="secondary" :ripple="false">
         Loading new content
       </v-btn>
-    </template>
-    <template v-else>
-      <v-btn class="refresh-btn" color="secondary" @click="$emit('refresh')">
+    </span>
+    <span v-else>
+      <v-btn
+        class="refresh-btn"
+        color="secondary"
+        small
+        @click="$emit('refresh')"
+      >
         Tap to Update
       </v-btn>
-    </template>
-  </div>
+    </span>
+  </span>
 </template>
 
 <script>
