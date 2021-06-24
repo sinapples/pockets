@@ -124,7 +124,7 @@ export default {
     },
     hourlyData() {
       if (this.forecast) {
-        return this.forecast.list.slice(0, 6)
+        return this.forecast.list.slice(0, 12)
       }
       return []
       // return this.weather ? Math.round(this.weather.main.temp) : ''

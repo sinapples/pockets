@@ -2,11 +2,46 @@
   <div>
     <v-expansion-panels>
       <v-expansion-panel>
-        <v-expansion-panel-header>Hourly Weather</v-expansion-panel-header>
+        <v-expansion-panel-header class="white--text" color="secondary">
+          <span>
+            <v-icon class="mr-2" color="white">mdi-clock-outline</v-icon> Hourly
+            Weather
+          </span>
+        </v-expansion-panel-header>
         <v-expansion-panel-content class="pl-0">
           <!-- Timeline -->
-          <v-timeline v-for="item in weatherData" :key="item.dt" align="start">
-            <v-timeline-item :icon="getIcon(item)" :color="getTempColor(item)">
+          <v-timeline v-for="item in weatherData" :key="item.dt">
+            <v-timeline-item
+              :icon="getIcon(item)"
+              :color="getTempColor(item)"
+              fill-dot
+            >
+              <template v-if="timeOfDay(item.dt_txt)" v-slot:opposite>
+                <!-- <v-card :color="getTempColor(item)" dense dark>
+                  <v-card-title class="text-body-1 py-1">
+                    {{ timeOfDay(item.dt_txt) }}
+                  </v-card-title>
+                </v-card> -->
+                <div
+                  :class="
+                    ` font-weight-bold ${
+                      getTempColor(item).split(' ')[0]
+                    }--text`
+                  "
+                >
+                  {{ timeOfDay(item.dt_txt).split(' ')[0] }}
+                </div>
+                <div
+                  :class="
+                    ` font-weight-bold ${
+                      getTempColor(item).split(' ')[0]
+                    }--text`
+                  "
+                >
+                  {{ timeOfDay(item.dt_txt).split(' ')[1] }}
+                </div>
+              </template>
+
               <v-card :color="getTempColor(item)" dense dark>
                 <v-card-title class="text-body-1 py-1">
                   {{ format(item.dt_txt) }}
@@ -157,6 +192,23 @@ export default {
         default:
           return 'mdi-google'
       }
+    },
+    timeOfDay(item) {
+      const time = moment(item).format('LT')
+      const day =
+        moment(item).format('dddd') === moment().format('dddd')
+          ? 'This'
+          : 'Tomorrow'
+      if (time === '6:00 AM') {
+        return `${day} Morning`
+      }
+      if (time === '12:00 PM') {
+        return `${day} Afternoon`
+      }
+      if (time === '6:00 PM') {
+        return `${day} Evening`
+      }
+      return ''
     }
   }
 }
