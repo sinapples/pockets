@@ -26,7 +26,7 @@ export default {
     const createdActivity = await userActivityDb.create(activity)
     commit('addActivity', createdActivity)
     commit('setActivityCreationPending', false)
-    commit('setSelectedEditActivity', activity)
+    commit('setSelectedEditActivity', createdActivity)
   },
 
   /**

@@ -11,5 +11,17 @@ export default {
    * Get activity by id
    */
   getActivityById: state => activityId =>
-    find(state.activities, activity => activity.id === activityId)
+    find(state.activities, activity => activity.id === activityId),
+
+  // Remove Always bring from the selectable options
+  activities: state => {
+    if (state.activities) {
+      return state.activities.filter(
+        activity => activity.name !== 'Always Bring'
+      )
+    }
+
+    return state.activities
+    // .filter(activity => activity.name === 'Always Bring')
+  }
 }

@@ -42,8 +42,8 @@ export default {
     return {}
   },
   computed: {
-    ...mapGetters('activities', ['isActivityDeletionPending']),
-    ...mapState('activities', ['activities', 'selectedActivities']),
+    ...mapGetters('activities', ['isActivityDeletionPending', 'activities']),
+    ...mapState('activities', ['selectedActivities']),
     ...mapState('app', ['networkOnLine']),
     itemList() {
       if (this.activities) {

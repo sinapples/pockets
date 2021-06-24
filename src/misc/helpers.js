@@ -31,6 +31,16 @@ export const createNewUserFromFirebaseAuthUser = async firebaseAuthUser => {
     ],
     rank: 0
   })
+  await userActivity.create({
+    name: 'Work',
+    items: [{ name: 'Badge' }],
+    rank: 0
+  })
+  await userActivity.create({
+    name: 'Exercise',
+    items: [{ name: 'Water' }, { name: 'Gym Bag' }],
+    rank: 0
+  })
   console.log(userObj)
   return userObj
 }

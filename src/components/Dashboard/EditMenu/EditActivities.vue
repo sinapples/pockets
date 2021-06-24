@@ -1,7 +1,9 @@
 <template>
   <div>
+    <!-- Acitivity Card -->
     <v-card class="elevation-0">
       <v-sheet color="primary" outlined rounded="t-xl">
+        <!-- Activitiy List Heading -->
         <v-card-title
           >Activity List
 
@@ -16,6 +18,7 @@
           </v-btn>
         </v-card-title>
       </v-sheet>
+      <!-- Activity Chips  -->
       <div class="mx-4">
         <v-chip-group
           v-model="selectedChip"
@@ -34,14 +37,16 @@
             {{ activity.name }}
           </v-chip>
         </v-chip-group>
+        <!-- Add activity  -->
         <div v-if="showAddActivity">
           <AddActivity />
         </div>
       </div>
-      <!-- Edit Card -->
+      <!-- Edit Activity  -->
       <v-card class="elevation-0">
         <v-sheet rounded="t-xl" outlined>
           <v-sheet class="primary text-right" dark>
+            <!-- Activity Heading -->
             <v-card-title
               >{{ selectedEditActivity.name }}
               <v-spacer></v-spacer>
@@ -51,11 +56,11 @@
               </v-btn>
             </v-card-title>
           </v-sheet>
-
+          <!-- Item List Label -->
           <div class="pa-4">
             <span v-if="hasItems" class="subheading">Items to bring</span
             ><span v-else class="subheading">Item list empty</span>
-
+            <!-- Item List -->
             <v-chip-group active-class="primary--text" column>
               <v-chip
                 v-for="tag in selectedEditActivity.items"
@@ -69,6 +74,7 @@
               </v-chip>
             </v-chip-group>
             <v-divider class="py-2"></v-divider>
+            <!-- Add items  -->
             <div v-if="editMode || hasItems">
               <v-row>
                 <v-col>
@@ -176,7 +182,8 @@ export default {
       const newItem = {
         name: this.itemName
       }
-      console.log(newItem)
+      console.log('Add item click')
+      console.log(this.selectedEditActivity)
       const updateItem = cloneDeep(this.selectedEditActivity)
 
       updateItem.items.push(newItem)
