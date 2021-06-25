@@ -29,11 +29,11 @@ jobs:
         run: npm run build
       # - name: Check bundle size
       #   run: npm run bundlesize
-      - name: Upload build
-        uses: actions/upload-artifact@master
-        with:
-          name: build
-          path: dist
+      # - name: Upload build
+      #   uses: actions/upload-artifact@master
+      #   with:
+      #     name: build
+      #     path: dist
 
   deploy:
     runs-on: ubuntu-latest
