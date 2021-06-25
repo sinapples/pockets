@@ -67,7 +67,7 @@ export default {
 
     selectedChip: {},
     selectedChips: {},
-    editMode: false,
+    editMode: !false,
     showAddActivity: false,
     newDisplayName: '',
 
