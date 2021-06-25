@@ -5,7 +5,7 @@
     color="primary"
     :class="{ offline: !networkOnLine }"
   >
-    <span v-if="newContentAvailable">
+    <span v-if="newContentAvailable" class="pb-4">
       <new-content-available-toastr
         :refreshing-app="refreshingApp"
         @refresh="serviceWorkerSkipWaiting"

@@ -9,10 +9,9 @@
           Account Information
 
           <v-spacer />
-          <v-btn depressed color="secondary" @click="editMode = !editMode">
-            {{ editMode ? 'Done ' : 'Edit' }}
+          <v-btn depressed color="secondary" icon @click="editMode = !editMode">
             <v-icon class="ml-2" color="white">
-              {{ editMode ? 'mdi-check ' : 'mdi-pencil' }}
+              {{ !editMode ? 'mdi-check ' : 'mdi-pencil' }}
             </v-icon>
           </v-btn>
         </v-card-title>
@@ -20,7 +19,7 @@
 
       <!-- Edit Card -->
       <v-card v-if="!editMode" class="elevation-0">
-        <v-card-title>Edit Account {{ selectedUnit }}</v-card-title>
+        <v-card-title>Edit Account </v-card-title>
         <v-card-text>
           <v-text-field v-model="newDisplayName" label="Name"></v-text-field>
           <v-text-field

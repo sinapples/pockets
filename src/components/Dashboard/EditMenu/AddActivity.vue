@@ -1,12 +1,13 @@
 <template>
   <div>
     <v-row>
-      <v-col cols="6">
+      <v-col cols="7">
         <v-text-field
           v-model="activityName"
           outlined
           dense
-          label="Activity Name"
+          label="Create Activity"
+          placeholder="Activity Name"
         ></v-text-field>
       </v-col>
 
@@ -14,10 +15,11 @@
       <v-col>
         <v-btn
           :class="{ disabled: activityCreationPending }"
+          color="primary darken-1"
           @click="addActivity"
         >
-          <v-icon>mdi-plus</v-icon>Create Activity</v-btn
-        >
+          <v-icon>mdi-plus</v-icon>Add
+        </v-btn>
       </v-col>
     </v-row>
   </div>

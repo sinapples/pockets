@@ -12,7 +12,7 @@
 
       <v-card-actions>
         <v-btn depressed @click="selected = []">
-          Reset List
+          Uncheck All
         </v-btn>
         <v-spacer></v-spacer>
 

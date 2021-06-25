@@ -22,22 +22,23 @@
                     {{ timeOfDay(item.dt_txt) }}
                   </v-card-title>
                 </v-card> -->
-                <div
-                  :class="
+
+                <!-- 
+ :class="
                     ` font-weight-bold ${
                       getTempColor(item).split(' ')[0]
-                    }--text`
+                    }--text text--${getTempColor(item).split(' ')[1]}`
                   "
-                >
+  :class="
+                    ` font-weight-bold ${
+                      getTempColor(item).split(' ')[0]
+                    }--text text--${getTempColor(item).split(' ')[1]}`
+                  "
+                 -->
+                <div>
                   {{ timeOfDay(item.dt_txt).split(' ')[0] }}
                 </div>
-                <div
-                  :class="
-                    ` font-weight-bold ${
-                      getTempColor(item).split(' ')[0]
-                    }--text`
-                  "
-                >
+                <div>
                   {{ timeOfDay(item.dt_txt).split(' ')[1] }}
                 </div>
               </template>
@@ -146,20 +147,20 @@ export default {
         (temp >= 26 && temp <= 32 && this.units === 'metric')
       ) {
         console.log('green')
-        return 'orange lighten-2'
+        return 'orange lighten-1'
       }
       if (
         (temp >= 70 && temp <= 80 && this.units !== 'metric') ||
         (temp >= 21 && temp <= 26 && this.units === 'metric')
       ) {
         console.log('blue')
-        return 'green lighten-2'
+        return 'yellow darken-2'
       }
       if (
         (temp >= 60 && temp <= 70 && this.units !== 'metric') ||
         (temp >= 15 && temp <= 21 && this.units === 'metric')
       ) {
-        return 'blue lighten-2'
+        return 'green lighten-2'
       }
 
       if (

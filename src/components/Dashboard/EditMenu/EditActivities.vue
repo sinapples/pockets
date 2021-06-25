@@ -4,48 +4,39 @@
     <v-card class="elevation-0">
       <v-sheet color="primary" outlined rounded="t-xl">
         <!-- Activitiy List Heading -->
-        <v-card-title
-          >Activity List
-
-          <v-spacer />
-          <v-btn
-            depressed
-            color="secondary"
-            @click="showAddActivity = !showAddActivity"
-          >
-            Add
-            <v-icon color="white">mdi-plus</v-icon>
-          </v-btn>
-        </v-card-title>
+        <v-card-title>Edit Activity List </v-card-title>
       </v-sheet>
       <!-- Activity Chips  -->
-      <div class="mx-4">
-        <v-chip-group
-          v-model="selectedChip"
-          mandatory
-          column
-          center-active
-          active-class="primary--text"
-        >
-          <v-chip
-            v-for="activity in activities"
-            :key="activity.id"
-            :input-value="selectedChip"
-            :value="activity"
-            @click="setSelectedEditActivityMoo(activity)"
+      <v-card-text>
+        <div class="mx-4">
+          <v-chip-group
+            v-model="selectedChip"
+            mandatory
+            column
+            center-active
+            active-class="primary--text"
           >
-            {{ activity.name }}
-          </v-chip>
-        </v-chip-group>
-        <!-- Add activity  -->
-        <div v-if="showAddActivity">
-          <AddActivity />
+            <v-chip
+              v-for="activity in activities"
+              :key="activity.id"
+              :input-value="selectedChip"
+              :value="activity"
+              @click="setSelectedEditActivityMoo(activity)"
+            >
+              {{ activity.name }}
+            </v-chip>
+          </v-chip-group>
+          <!-- Add activity  -->
+          <v-divider class="my-4"></v-divider>
+          <div>
+            <AddActivity />
+          </div>
         </div>
-      </div>
+      </v-card-text>
       <!-- Edit Activity  -->
       <v-card class="elevation-0">
         <v-sheet rounded="t-xl" outlined>
-          <v-sheet class="primary text-right" dark>
+          <v-sheet class="primary text-right">
             <!-- Activity Heading -->
             <v-card-title
               >{{ selectedEditActivity.name }}
@@ -58,8 +49,8 @@
           </v-sheet>
           <!-- Item List Label -->
           <div class="pa-4">
-            <span v-if="hasItems" class="subheading">Items to bring</span
-            ><span v-else class="subheading">Item list empty</span>
+            <span v-if="hasItems" class="subheading">Current Items</span
+            ><span v-else class="subheading">Add Items</span>
             <!-- Item List -->
             <v-chip-group active-class="primary--text" column>
               <v-chip
@@ -73,21 +64,23 @@
                 {{ tag.name }}
               </v-chip>
             </v-chip-group>
-            <v-divider class="py-2"></v-divider>
+            <v-divider class="my-4"></v-divider>
             <!-- Add items  -->
-            <div v-if="editMode || hasItems">
+            <div>
               <v-row>
-                <v-col>
+                <v-col cols="7">
                   <v-text-field
                     v-model="itemName"
                     dense
-                    label="New Item"
+                    outlined
+                    label="Add Item"
+                    placeholder="Item Name"
                   ></v-text-field>
                 </v-col>
                 <v-spacer />
                 <v-col>
-                  <v-btn small @click="addItem">
-                    <v-icon small>mdi-plus</v-icon> Add
+                  <v-btn color="primary darken-1" @click="addItem">
+                    <v-icon>mdi-plus</v-icon> Add
                   </v-btn>
                 </v-col>
               </v-row>

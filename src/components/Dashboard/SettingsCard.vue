@@ -37,7 +37,7 @@ export default {
   data() {
     return {
       select: '',
-      editMode: !false,
+      editMode: false,
       headers: [
         {
           text: 'name',
