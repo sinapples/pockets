@@ -27,6 +27,7 @@
 
 <script>
 import { mapMutations, mapState, mapActions } from 'vuex'
+import { capitalizeWords } from '@/utils/languageUtil'
 
 export default {
   data() {
@@ -43,14 +44,16 @@ export default {
     ...mapActions('activities', ['triggerAddActivityAction']),
     addActivity() {
       console.log(`click ${this.activityName}`)
-      const activity = {
-        name: this.activityName,
-        items: [],
-        color: 'blue',
-        rank: 5
+      if (this.activityName) {
+        const activity = {
+          name: capitalizeWords(this.activityName),
+          items: [],
+          color: 'blue',
+          rank: 5
+        }
+        this.setActivityNameToCreate(activity)
+        this.triggerAddActivityAction()
       }
-      this.setActivityNameToCreate(activity)
-      this.triggerAddActivityAction()
     }
   }
 }

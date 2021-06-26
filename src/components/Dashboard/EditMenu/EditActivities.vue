@@ -109,6 +109,7 @@ import { cloneDeep } from 'lodash'
 import { mapState, mapActions, mapGetters, mapMutations } from 'vuex'
 
 import AddActivity from '@/components/Dashboard/EditMenu/AddActivity'
+import { capitalize } from '@/utils/languageUtil'
 
 export default {
   components: { AddActivity },
@@ -172,16 +173,18 @@ export default {
     },
     addItem() {
       // TODO add input validation
-      const newItem = {
-        name: this.itemName
-      }
-      console.log('Add item click')
-      console.log(this.selectedEditActivity)
-      const updateItem = cloneDeep(this.selectedEditActivity)
+      if (this.itemName) {
+        const newItem = {
+          name: capitalize(this.itemName)
+        }
+        console.log('Add item click')
+        console.log(this.selectedEditActivity)
+        const updateItem = cloneDeep(this.selectedEditActivity)
 
-      updateItem.items.push(newItem)
-      this.updateUserActivity(updateItem)
-      this.itemName = ''
+        updateItem.items.push(newItem)
+        this.updateUserActivity(updateItem)
+        this.itemName = ''
+      }
     }
   }
 }

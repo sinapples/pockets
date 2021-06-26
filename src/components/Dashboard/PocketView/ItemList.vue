@@ -1,44 +1,56 @@
 <template>
   <div>
-    <!-- {{ alwaysBring }} -->
-    <!-- <span v-if="haveEverything"> You are ready to go </span> -->
-
     <v-card>
+      <!-- Title -->
       <v-sheet dark color="secondary">
-        <v-card-title class="text-center"
-          >This is what you need today</v-card-title
+        <v-card-title class="text-center">
+          <v-icon class="mr-2"> mdi-clipboard-list-outline</v-icon> This is what
+          you need today</v-card-title
         >
       </v-sheet>
 
+      <!-- Toolbar -->
       <v-card-actions>
-        <v-btn depressed @click="selected = []">
+        <v-btn depressed @click="uncheckAll()">
           Uncheck All
         </v-btn>
         <v-spacer></v-spacer>
 
-        <!-- <v-btn @click="all">
-          all
-        </v-btn> -->
         <v-btn icon @click="expandColapseAll">
           <v-icon>
             {{ isExpandAll ? 'mdi-collapse-all' : 'mdi-expand-all' }}
           </v-icon>
         </v-btn>
-        <!-- 
-        <v-btn @click="none">
-          none
-        </v-btn> -->
       </v-card-actions>
 
-      <v-expansion-panels v-model="panel" multiple
-        ><v-expansion-panel
+      <!-- Ready message -->
+      <v-sheet v-if="allCheck()" color="primary darken-2">
+        <v-card-title dense class="justify-center white--text">
+          <v-icon class="mr-2" color="white">mdi-party-popper</v-icon>
+          You are ready to go!
+          <v-icon class="ml-2" color="white">mdi-party-popper</v-icon>
+        </v-card-title>
+      </v-sheet>
+      <!-- List view -->
+      <v-expansion-panels v-model="panel" multiple>
+        <v-expansion-panel
           v-for="activity in itemList"
           :key="activity.id"
           dense
           :prepend-icon="activity.icon"
           class="pa-1"
         >
-          <v-expansion-panel-header dense v-text="activity.name">
+          <v-expansion-panel-header dense ripple color="primary lighten-1">
+            <div>
+              <v-btn x-small color="secondary" depressed class="mr-2" fab>
+                <span v-if="itemsLeft(activity) !== 0">{{
+                  itemsLeft(activity)
+                }}</span>
+
+                <v-icon v-else>mdi-check</v-icon>
+              </v-btn>
+              {{ activity.name }}
+            </div>
           </v-expansion-panel-header>
           <v-expansion-panel-content>
             <v-list>
@@ -47,11 +59,11 @@
                 :key="item.name"
                 dense
                 link
-                @click="rowClick(item)"
+                @click="checkItem(item, activity)"
               >
                 <v-list-item-icon>
                   <v-icon>{{
-                    isBrought(item)
+                    isBrought2(item, activity.name)
                       ? 'mdi-checkbox-marked-outline'
                       : 'mdi-checkbox-blank-outline'
                   }}</v-icon>
@@ -68,56 +80,29 @@
 
 <script>
 // import activities from '@/store/activities'
-import { mapState, mapActions, mapGetters, mapMutations } from 'vuex'
+import { mapState } from 'vuex'
 import { cloneDeep } from 'lodash'
 
 export default {
   data() {
     return {
-      headers: [
-        {
-          text: 'Dessert (100g serving)',
-          align: 'start',
-          sortable: false,
-          value: 'name'
-        }
-      ],
       panel: [0],
       selected: [],
-      isExpandAll: true
+      selectedItems: {},
+      isExpandAll: true,
+      allCheck1: false
     }
   },
 
-  watch: {
-    itemList() {
-      console.log('watch moo')
-
-      this.panel = [...Array(this.itemList.length).keys()].map((k, i) => i)
-    }
-  },
   computed: {
-    ...mapGetters('activities', ['isActivityDeletionPending']),
-    ...mapState('activities', [
-      'activities',
-      'selectedEditActivity',
-      'selectedActivities'
-    ]),
+    ...mapState('activities', ['activities', 'selectedActivities']),
 
     ...mapState('app', ['networkOnLine']),
 
-    haveEverything() {
-      if (this.itemList) {
-        return (
-          this.itemList.length === this.selected.length &&
-          this.itemList.length !== 0
-        )
-      }
-      return false
-    },
     itemList() {
       const list = []
       list.push(this.alwaysBring)
-      // const moo = []
+
       if (this.selectedActivities.length > 0) {
         console.log('hello')
         for (
@@ -136,7 +121,7 @@ export default {
           }
         }
         // list.concat(moo)
-        console.log(list[1])
+
         return list
       }
       return list
@@ -154,10 +139,59 @@ export default {
       return []
     }
   },
+
+  watch: {
+    itemList() {
+      console.log('watch moo')
+
+      this.panel = [...Array(this.itemList.length).keys()].map((k, i) => i)
+    }
+  },
   methods: {
-    ...mapMutations('activities', ['setSelectedEditActivity']),
-    ...mapActions('activities', ['deleteUserActivity', 'updateUserActivity']),
+    checkItem(item, activity) {
+      console.log(`panel${this.panel.length}`)
+      // Add the activity if it doesnt exist
+      if (!this.selectedItems[activity.name]) {
+        this.$set(this.selectedItems, activity.name, {})
+        this.$set(this.selectedItems[activity.name], 'list', [])
+        // this.selectedItems[activity] = {}
+        // this.selectedItems[activity].list = []
+      }
+      // Check if activity exisit
+
+      const index = this.selectedItems[activity.name].list.indexOf(item.name)
+      if (index !== -1) {
+        this.selectedItems[activity.name].list.splice(index, 1)
+        console.log(`good${activity.name}`)
+      } else {
+        console.log('bad')
+        this.selectedItems[activity.name].list.push(item.name)
+      }
+      console.log(this.selectedItems)
+
+      // Colpase pannel
+
+      if (this.itemList.length >= 0 && this.itemsLeft(activity) === 0) {
+        console.log('coplaseess')
+        const panelIndex = this.panel.indexOf(this.itemList.indexOf(activity))
+        this.panel.splice(panelIndex, 1)
+      }
+
+      // check if every is cehcked
+    },
+
+    isBrought2({ name }, activityName) {
+      console.log(`panel${this.panel.length}`)
+      console.log(`>>>${name}`)
+
+      if (this.selectedItems[activityName]) {
+        return this.selectedItems[activityName].list.indexOf(name) !== -1
+      }
+      return false
+    },
+
     rowClick(item) {
+      console.log(`panel${this.panel.length}`)
       const index = this.selected.indexOf(item.name)
       if (index !== -1) {
         this.selected.splice(index, 1)
@@ -170,16 +204,60 @@ export default {
     },
 
     isBrought({ name }) {
-      console.log(`>>>${name}`)
+      console.log(`panel${this.panel.length}`)
+      // console.log(`>>>${name}`)
       return this.selected.indexOf(name) !== -1
     },
+
+    itemsLeft(activity) {
+      console.log(`panel${this.panel.length}`)
+      if (this.selectedItems[activity.name]) {
+        return (
+          activity.items.length - this.selectedItems[activity.name].list.length
+        )
+      }
+
+      if (activity.items) {
+        return activity.items.length
+      }
+      return 100
+    },
     expandColapseAll() {
+      console.log(`panel${this.panel.length}`)
       if (this.isExpandAll) {
         this.panel = []
       } else {
         this.panel = [...Array(this.itemList.length).keys()].map((k, i) => i)
       }
       this.isExpandAll = !this.isExpandAll
+    },
+    uncheckAll() {
+      console.log(`panel${this.panel.length}`)
+      this.selectedItems = {}
+      this.panel = [...Array(this.itemList.length).keys()].map((k, i) => i)
+    },
+    allCheck() {
+      console.log(`panel${this.panel.length}`)
+      let bool = true
+      // for (let i = 0; i < this.itemList.length; i = +1) {
+      // if (this.itemsLeft(this.itemList[i]) !== 0) {
+
+      if (this.itemList.length >= 0) {
+        // bool = false
+        // return false
+      }
+
+      this.itemList.forEach(activity => {
+        if (this.itemsLeft(activity) !== 0) {
+          bool = false
+        }
+      })
+
+      // }
+      // }
+
+      this.allCheck1 = bool
+      return bool
     }
   }
 }

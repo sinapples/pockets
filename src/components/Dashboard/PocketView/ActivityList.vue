@@ -2,17 +2,17 @@
   <v-card class="mt-4" color="primary">
     <v-sheet color="primary  ">
       <v-card-title>
-        <v-icon class="mr-2">mdi-home</v-icon> Where are you going today?
+        <v-icon class="mr-2">mdi-home</v-icon> What are you going today?
       </v-card-title>
     </v-sheet>
     <v-card-text class="white text--primary">
-      <v-row justify="center">
+      <v-row justify="center" align="center">
         <span
           v-for="activity in activities"
           :key="activity.id"
           :value="activity"
         >
-          <v-col class="pa-1">
+          <v-col class="pa-1" justify="center" align="center">
             <v-card
               rounded="xl"
               :hover="true"
@@ -24,7 +24,9 @@
               <v-card-title class="pb-0">
                 <v-spacer></v-spacer><v-icon small>{{ icon(activity) }}</v-icon>
               </v-card-title>
-              <v-card-text class="name">{{ activity.name }}</v-card-text>
+              <v-card-text class="name">{{
+                capitalize(activity.name)
+              }}</v-card-text>
             </v-card>
           </v-col>
         </span>
@@ -36,6 +38,8 @@
 <script>
 // import activities from '@/store/activities'
 import { mapState, mapGetters, mapMutations } from 'vuex'
+
+import { capitalizeWords } from '@/utils/languageUtil'
 
 export default {
   data() {
@@ -85,6 +89,9 @@ export default {
 
     getColor() {
       return 'blue'
+    },
+    capitalize(item) {
+      return capitalizeWords(item)
     }
   }
 }
@@ -108,6 +115,7 @@ export default {
   /* padding-left:30% ; */
   /* padding-bottom:16% ; */
   /* padding-top:0px ; */
+  padding: auto;
   text-align: center;
   word-wrap: normal;
   overflow-wrap: normal;
