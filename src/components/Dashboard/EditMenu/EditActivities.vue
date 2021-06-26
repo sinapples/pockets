@@ -9,6 +9,7 @@
       <!-- Activity Chips  -->
       <v-card-text>
         <div class="mx-4">
+          <span class="black--text">Your Activities </span>
           <v-chip-group
             v-model="selectedChip"
             mandatory

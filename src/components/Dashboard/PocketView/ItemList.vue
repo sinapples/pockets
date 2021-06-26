@@ -5,7 +5,7 @@
       <v-sheet dark color="secondary">
         <v-card-title class="text-center">
           <v-icon class="mr-2"> mdi-clipboard-list-outline</v-icon> This is what
-          you need today</v-card-title
+          you will need today</v-card-title
         >
       </v-sheet>
 
@@ -49,7 +49,7 @@
 
                 <v-icon v-else>mdi-check</v-icon>
               </v-btn>
-              {{ activity.name }}
+              {{ capitalize(activity.name) }}
             </div>
           </v-expansion-panel-header>
           <v-expansion-panel-content>
@@ -82,6 +82,7 @@
 // import activities from '@/store/activities'
 import { mapState } from 'vuex'
 import { cloneDeep } from 'lodash'
+import { capitalizeWords } from '@/utils/languageUtil'
 
 export default {
   data() {
@@ -258,6 +259,9 @@ export default {
 
       this.allCheck1 = bool
       return bool
+    },
+    capitalize(item) {
+      return capitalizeWords(item)
     }
   }
 }
