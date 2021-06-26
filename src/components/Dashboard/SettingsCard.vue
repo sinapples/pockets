@@ -13,13 +13,9 @@
       </v-sheet>
 
       <div v-if="editMode">
-        <v-card-text>
-          <EditActivities />
-        </v-card-text>
+        <EditActivities />
 
-        <v-card-text>
-          <EditUserInfo />
-        </v-card-text>
+        <EditUserInfo />
       </div>
     </v-card>
   </div>

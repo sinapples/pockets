@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card class="elevation-0">
+    <v-card class="elevation-2  mt-4">
       <v-sheet color="secondary" dark outlined rounded="t-xl">
         <v-card-title>
           <v-icon class="mr-2" color="white">

@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Acitivity Card -->
-    <v-card class="elevation-0">
+    <v-card class="elevation-2  mt-4">
       <v-sheet color="primary" outlined rounded="t-xl">
         <!-- Activitiy List Heading -->
         <v-card-title>Edit Activity List </v-card-title>
