@@ -183,7 +183,7 @@ export default {
 
     isBrought2({ name }, activityName) {
       console.log(`panel${this.panel.length}`)
-      console.log(`>>>${name}`)
+      // console.log(`>>>${name}`)
 
       if (this.selectedItems[activityName]) {
         return this.selectedItems[activityName].list.indexOf(name) !== -1

@@ -7,7 +7,8 @@
           outlined
           dense
           show
-          :rules="acitivityRules"
+          :error="isError(activityName)"
+          :error-messages="errorMsg(activityName)"
           label="Create Activity"
           placeholder="Activity Name"
         ></v-text-field>
@@ -18,7 +19,7 @@
         <v-btn
           :class="{ disabled: activityCreationPending }"
           color="primary darken-2"
-          :disabled="!isVaildNewActivity(activityName)"
+          :disabled="!isError(activityName)"
           @click="addActivity"
         >
           <v-icon>mdi-plus</v-icon>Add
@@ -36,9 +37,9 @@ export default {
   data() {
     return {
       activityName: '',
-      errorMsg: '',
+
       acitivityRules: [
-        v => this.isVaildNewActivity(v) || 'Activity Already Exist'
+        v => this.isVaildNewActivity(v.trim()) || 'Activity Already Exist'
       ]
     }
   },
@@ -52,9 +53,9 @@ export default {
     ...mapActions('activities', ['triggerAddActivityAction']),
     addActivity() {
       console.log(`click ${this.activityName}`)
-      if (this.activityName) {
+      if (this.activityName.trim()) {
         const activity = {
-          name: capitalizeWords(this.activityName),
+          name: capitalizeWords(this.activityName.trim()),
           items: [],
           color: 'blue',
           rank: 5
@@ -65,9 +66,9 @@ export default {
       }
     },
     isVaildNewActivity(v) {
-      if (v) {
+      if (v.trim()) {
         const duplicates = this.activities.find(acitvity => {
-          return acitvity.name.toLowerCase() === v.toLowerCase()
+          return acitvity.name.trim().toLowerCase() === v.trim().toLowerCase()
         })
         console.log(duplicates)
         if (duplicates) {
@@ -77,6 +78,26 @@ export default {
       }
 
       return true
+    },
+
+    errorMsg(item) {
+      return this.isError(item) ? 'Item already exist' : ''
+    },
+    isError(item) {
+      if (item) {
+        const duplicates = this.activities.find(acitvity => {
+          return (
+            acitvity.name.trim().toLowerCase() === item.trim().toLowerCase()
+          )
+        })
+        console.log(duplicates)
+        if (duplicates) {
+          return true
+        }
+        return false
+      }
+
+      return false
     }
   }
 }

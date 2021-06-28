@@ -75,14 +75,19 @@
                     dense
                     show
                     outlined
-                    :rules="itemRules"
+                    :error="isError(itemName)"
+                    :error-messages="errorMsg(itemName)"
                     label="Add Item"
                     placeholder="Item Name"
                   ></v-text-field>
                 </v-col>
                 <v-spacer />
                 <v-col>
-                  <v-btn color="primary darken-2" @click="addItem">
+                  <v-btn
+                    color="primary darken-2"
+                    :disabled="isError(itemName)"
+                    @click="addItem"
+                  >
                     <v-icon>mdi-plus</v-icon> Add
                   </v-btn>
                 </v-col>
@@ -134,13 +139,13 @@ export default {
     }
   },
   watch: {
-    // selectedEditActivity(newItem) {
-    //   const index = this.activities.findIndex(
-    //     element => element.name === newItem.name
-    //   )
-    //   // eslint-disable-next-line prefer-destructuring
-    //   this.selectedChip = this.activities[index]
-    // }
+    selectedEditActivity(newItem) {
+      const index = this.activities.findIndex(
+        element => element.name === newItem.name
+      )
+      // eslint-disable-next-line prefer-destructuring
+      this.selectedChip = this.activities[index]
+    }
   },
   methods: {
     ...mapMutations('activities', ['setSelectedEditActivity']),
@@ -171,23 +176,23 @@ export default {
     },
 
     isVaildNewItem(v) {
-      // if (v) {
-      //   const duplicates = this.selectedEditActivity.items.find(item => {
-      //     return item.name.toLowerCase() === v.toLowerCase()
-      //   })
-      //   console.log(duplicates)
-      //   if (duplicates) {
-      //     return false
-      //   }
-      //   return true
-      // }
+      if (v) {
+        const duplicates = this.selectedEditActivity.items.find(item => {
+          return item.name.toLowerCase() === v.toLowerCase()
+        })
+        console.log(duplicates)
+        if (duplicates) {
+          return false
+        }
+        return true
+      }
       console.log(v)
       return true
     },
     addItem() {
-      if (this.itemName) {
+      if (this.itemName.trim()) {
         const newItem = {
-          name: capitalize(this.itemName)
+          name: capitalize(this.itemName.trim())
         }
         console.log('Add item click')
         console.log(this.selectedEditActivity)
@@ -197,6 +202,24 @@ export default {
         this.updateUserActivity(updateItem)
         this.itemName = ''
       }
+    },
+
+    errorMsg(item) {
+      return this.isError(item) ? 'Item already exist' : ''
+    },
+    isError(item) {
+      if (item) {
+        const duplicates = this.selectedEditActivity.items.find(element => {
+          return element.name.trim().toLowerCase() === item.trim().toLowerCase()
+        })
+        console.log(duplicates)
+        if (duplicates) {
+          return true
+        }
+        return false
+      }
+
+      return false
     }
   }
 }
