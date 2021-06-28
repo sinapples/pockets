@@ -53,7 +53,7 @@ jobs:
       # delete-artifact
       - uses: geekyeggo/delete-artifact@v1
         with:
-        name: my-artifact
+          name: my-artifact
       - name: Deploy project to firebase
         uses: w9jds/firebase-action@master
         with:
