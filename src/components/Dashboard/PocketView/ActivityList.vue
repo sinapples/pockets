@@ -36,7 +36,7 @@
 </template>
 
 <script>
-// mooo
+// mooo cow?
 // import activities from '@/store/activities'
 import { mapState, mapGetters, mapMutations } from 'vuex'
 
