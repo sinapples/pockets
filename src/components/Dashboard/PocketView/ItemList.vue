@@ -12,6 +12,7 @@
       <!-- Toolbar -->
       <v-card-actions>
         <v-btn depressed @click="uncheckAll()">
+          <v-icon class="mr-2">mdi-order-bool-ascending-variant </v-icon>
           Uncheck All
         </v-btn>
         <v-spacer></v-spacer>
@@ -144,7 +145,7 @@ export default {
   watch: {
     itemList() {
       // console.log('watch moo')
-
+      // this.panel.push(this.itemList.length - 1)
       this.panel = [...Array(this.itemList.length).keys()].map((k, i) => i)
     }
   },

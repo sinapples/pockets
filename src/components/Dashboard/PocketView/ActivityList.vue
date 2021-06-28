@@ -6,7 +6,7 @@
         What are you doing today?
         <v-spacer />
         <v-btn depressed small icon @click="clearList()">
-          <v-icon>mdi-refresh</v-icon>
+          <v-icon>mdi-order-bool-ascending-variant </v-icon>
         </v-btn>
       </v-card-title>
     </v-sheet>

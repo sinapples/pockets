@@ -1,6 +1,6 @@
 <template>
   <v-card color="secondary" dark>
-    <v-sheet color="primary">
+    <v-sheet color="primary darken-1">
       <v-card-title class="justify-center">
         <v-icon class="mr-2" color="white">mdi-party-popper</v-icon>
         Thank you for using Pockets!
@@ -8,7 +8,7 @@
       </v-card-title>
     </v-sheet>
 
-    <v-card-text class="  text-center">
+    <v-card-text class=" body-1 text-center ">
       <div>
         <v-list-item-avatar class="ma-3" size="125" right rounded>
           <v-img
@@ -20,8 +20,8 @@
             <v-list-item-title class="text-h5 mb-1">
               Hi, I'm Josh!
             </v-list-item-title>
-            <v-list-item-subtitle>
-              I hope you found this Pockets helpful! If you like this app and
+            <v-list-item-subtitle class="body-1">
+              I hope you found <strong> {{ appTitle }}</strong> helpful and if
               want to support the devlopment</v-list-item-subtitle
             >
           </v-list-item-content>
@@ -32,15 +32,15 @@
         <span style="font-size:20px; color:black">🧋</span>
         <div>
           <p />
-          You can <strong> donate</strong> to me directly thru Venmo, Paypal,
-          Buy me a boba
+          <strong> Donate</strong> to me directly though Venmo, Paypal, or Buy
+          me boba
           <p />
         </div>
-        @Sinapples on all platforms
+        <strong> @sinapples </strong>on all platforms
       </div>
     </v-card-text>
 
-    <v-card-actions>
+    <v-card-actions class="pb-8">
       <v-spacer />
       <v-btn
         color="blue lighten-2"
@@ -77,20 +77,6 @@
 import { mapState } from 'vuex'
 
 export default {
-  head() {
-    return {
-      title: {
-        inner: 'Home'
-      },
-      meta: [
-        {
-          name: 'description',
-          content: `Support the development of this app with boba`,
-          id: 'desc'
-        }
-      ]
-    }
-  },
   computed: mapState('app', ['appTitle'])
 }
 </script>
