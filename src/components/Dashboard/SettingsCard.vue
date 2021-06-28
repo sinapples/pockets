@@ -1,22 +1,23 @@
 <template>
   <div class="page-wrapper">
     <v-card>
-      <v-sheet color="secondary" dark>
+      <v-card color="secondary" dark @click="editMode = !editMode">
         <v-card-title>
           <v-icon class="mr-2">mdi-cog</v-icon>Settings
 
           <v-spacer />
-          <v-icon large @click="editMode = !editMode">{{
+          <v-icon large>{{
             editMode ? 'mdi-chevron-up' : 'mdi-chevron-down'
           }}</v-icon>
         </v-card-title>
-      </v-sheet>
+      </v-card>
+      <v-expand-transition>
+        <div v-show="editMode">
+          <EditActivities />
 
-      <div v-if="editMode">
-        <EditActivities />
-
-        <EditUserInfo />
-      </div>
+          <EditUserInfo />
+        </div>
+      </v-expand-transition>
     </v-card>
   </div>
 </template>

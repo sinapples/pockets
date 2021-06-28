@@ -146,14 +146,12 @@ export default {
         (temp >= 80 && temp <= 90 && this.units !== 'metric') ||
         (temp >= 26 && temp <= 32 && this.units === 'metric')
       ) {
-        console.log('green')
         return 'orange lighten-1'
       }
       if (
         (temp >= 70 && temp <= 80 && this.units !== 'metric') ||
         (temp >= 21 && temp <= 26 && this.units === 'metric')
       ) {
-        console.log('blue')
         return 'yellow darken-2'
       }
       if (

@@ -74,14 +74,18 @@ function removeLast(text) {
 }
 
 function capitalizeWords(text) {
-  const words = text.split(' ')
-  let ret = ''
+  if (text) {
+    const words = text.split(' ')
 
-  Object.keys(words).forEach(i => {
-    ret += `${capitalize(words[i])} `
-  })
+    let ret = ''
 
-  return removeLast(ret)
+    Object.keys(words).forEach(i => {
+      ret += `${capitalize(words[i])} `
+    })
+
+    return removeLast(ret)
+  }
+  return ''
 }
 
 function titleCase(text) {

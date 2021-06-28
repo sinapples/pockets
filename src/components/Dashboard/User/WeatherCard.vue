@@ -11,11 +11,11 @@
             {{ currentTemp }}&deg;{{ user.units == 'metric' ? 'C' : 'F' }}
           </v-col>
           <v-col cols="6">
-            <v-img
+            <!-- <v-img
               src="https://cdn.vuetifyjs.com/images/cards/sun.png"
               alt="Sunny image"
               width="92"
-            ></v-img>
+            ></v-img> -->
           </v-col>
         </v-row>
       </div>

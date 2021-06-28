@@ -59,5 +59,8 @@ export default {
     } else {
       state.selectedActivities.splice(index, 1)
     }
+  },
+  clearSelectedActivities: state => {
+    state.selectedActivities = []
   }
 }

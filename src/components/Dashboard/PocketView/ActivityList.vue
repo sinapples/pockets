@@ -2,7 +2,12 @@
   <v-card class="mt-4" color="primary">
     <v-sheet color="primary  ">
       <v-card-title>
-        <v-icon class="mr-2">mdi-home</v-icon> What are you going today?
+        <v-icon class="mr-1">mdi-home</v-icon>
+        What are you doing today?
+        <v-spacer />
+        <v-btn depressed small icon @click="clearList()">
+          <v-icon>mdi-refresh</v-icon>
+        </v-btn>
       </v-card-title>
     </v-sheet>
     <v-card-text class="white text--primary">
@@ -64,7 +69,8 @@ export default {
   methods: {
     ...mapMutations('activities', [
       'setSelectedEditActivity',
-      'addRemoveSelectedActivity'
+      'addRemoveSelectedActivity',
+      'clearSelectedActivities'
     ]),
     color(item) {
       return this.selectedActivities.findIndex(id => id === item.id) === -1
@@ -85,7 +91,7 @@ export default {
       this.addRemoveSelectedActivity(item.id)
     },
     clearList() {
-      this.selected = []
+      this.clearSelectedActivities()
     },
 
     getColor() {

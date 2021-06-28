@@ -20,20 +20,8 @@
             </v-list-item>
           </v-col>
           <v-spacer />
-          <!-- <div class="headline">
-              <span>
-                {{ titleMessage() }}
-              </span>
-              <span>
-                {{ ' ' + user.displayName }}
-              </span>
-            </div>
-           -->
 
           <v-col xl="4" lg="4" md="4" sm="5" xs="5">
-            <!-- <v-card-title class="headline">
-              {{ currentTime }}
-            </v-card-title> -->
             <v-list-item two-line>
               <v-list-item-content>
                 <v-list-item-title class="headline" align="end">

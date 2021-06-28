@@ -1,21 +1,21 @@
 <template>
-  <div class="main-wrapper">
-    <v-row>
-      <v-col cols="12"> </v-col>
-      <UserCard class="mt-4" />
-      <v-col cols="12">
-        <PocketCard class="mt-4" />
-      </v-col>
-      <v-col cols="12">
-        <SettingsCard class="mt-4" />
-      </v-col>
-    </v-row>
-    <!-- <div class="page-wrapper">
-      <h1 class="products-page-title">Dashboard page</h1>
-      <product-list class="product-list"></product-list>
-      <add-product v-if="networkOnLine"></add-product>
-    </div> -->
+  <div>
+    <div class="main-wrapper">
+      <v-row>
+        <v-col cols="12"> </v-col>
+        <UserCard class="mt-4" />
+        <v-col cols="12">
+          <PocketCard class="mt-4" />
+        </v-col>
+        <v-col cols="12">
+          <SettingsCard class="mt-4" />
+        </v-col>
+      </v-row>
+    </div>
+    <!-- <v-col cols="12"> -->
+    <Support class="mt-4" />
   </div>
+  <!-- </v-col> -->
 </template>
 
 <script>
@@ -25,9 +25,10 @@ import { mapState } from 'vuex'
 import UserCard from '@/components/Dashboard/UserCard'
 import PocketCard from '@/components/Dashboard/PocketCard'
 import SettingsCard from '@/components/Dashboard/SettingsCard'
+import Support from '@/components/Support'
 
 export default {
-  components: { UserCard, SettingsCard, PocketCard },
+  components: { UserCard, SettingsCard, PocketCard, Support },
   computed: mapState('app', ['networkOnLine'])
 }
 </script>

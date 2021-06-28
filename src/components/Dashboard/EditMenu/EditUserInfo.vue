@@ -1,7 +1,13 @@
 <template>
   <div>
     <v-card class="elevation-2  mt-4">
-      <v-sheet color="secondary" dark outlined rounded="t-xl">
+      <v-card
+        color="secondary"
+        dark
+        outlined
+        rounded="t-xl"
+        @click="editMode = !editMode"
+      >
         <v-card-title>
           <v-icon class="mr-2" color="white">
             mdi-account
@@ -9,51 +15,53 @@
           Account Information
 
           <v-spacer />
-          <v-btn depressed color="secondary" icon @click="editMode = !editMode">
+          <v-btn depressed color="secondary" icon>
             <v-icon class="ml-2" color="white">
               {{ !editMode ? 'mdi-check ' : 'mdi-pencil' }}
             </v-icon>
           </v-btn>
         </v-card-title>
-      </v-sheet>
+      </v-card>
 
       <!-- Edit Card -->
-      <v-card v-if="!editMode" class="elevation-0">
-        <v-card-title>Edit Account</v-card-title>
-        <v-card-text>
-          <v-text-field v-model="newDisplayName" label="Name"></v-text-field>
-          <v-text-field
-            ref="zipCode"
-            v-model="zipCode"
-            label="ZIP / Postal Code"
-            :rules="[
-              () =>
-                zipCode === null ||
-                zipCode === '' ||
-                (!Number.isInteger(zipCode.toString()) &&
-                  zipCode.toString().length === 5) ||
-                'Invalid zipCode'
-            ]"
-            placeholder="79938"
-            persistent-hint
-            hint="Used for weather data"
-          ></v-text-field>
-          <v-radio-group v-model="selectedUnit" mandatory row>
-            <v-radio label="Imperial" value="imperial"></v-radio>
-            <v-radio label="Metric" value="metric"></v-radio>
-          </v-radio-group>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn
-            color="primary"
-            :loading="userUpdating"
-            :disabled="!isUpdated"
-            @click="onSave"
-            >Save</v-btn
-          >
-        </v-card-actions>
-      </v-card>
+      <v-expand-transition>
+        <v-card v-show="!editMode" class="elevation-0">
+          <v-card-title>Edit Account</v-card-title>
+          <v-card-text>
+            <v-text-field v-model="newDisplayName" label="Name"></v-text-field>
+            <v-text-field
+              ref="zipCode"
+              v-model="zipCode"
+              label="ZIP / Postal Code"
+              :rules="[
+                () =>
+                  zipCode === null ||
+                  zipCode === '' ||
+                  (!Number.isInteger(zipCode.toString()) &&
+                    zipCode.toString().length === 5) ||
+                  'Invalid zipCode'
+              ]"
+              placeholder="79938"
+              persistent-hint
+              hint="Used for weather data"
+            ></v-text-field>
+            <v-radio-group v-model="selectedUnit" mandatory row>
+              <v-radio label="Imperial" value="imperial"></v-radio>
+              <v-radio label="Metric" value="metric"></v-radio>
+            </v-radio-group>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer />
+            <v-btn
+              color="primary"
+              :loading="userUpdating"
+              :disabled="!isUpdated"
+              @click="onSave"
+              >Save</v-btn
+            >
+          </v-card-actions>
+        </v-card>
+      </v-expand-transition>
     </v-card>
   </div>
 </template>

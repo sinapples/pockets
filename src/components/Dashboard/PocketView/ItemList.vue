@@ -4,8 +4,8 @@
       <!-- Title -->
       <v-sheet dark color="secondary">
         <v-card-title class="text-center">
-          <v-icon class="mr-2"> mdi-clipboard-list-outline</v-icon> This is what
-          you will need today</v-card-title
+          <v-icon class="mr-2"> mdi-clipboard-list-outline</v-icon> Bring these
+          today!</v-card-title
         >
       </v-sheet>
 
@@ -143,14 +143,13 @@ export default {
 
   watch: {
     itemList() {
-      console.log('watch moo')
+      // console.log('watch moo')
 
       this.panel = [...Array(this.itemList.length).keys()].map((k, i) => i)
     }
   },
   methods: {
     checkItem(item, activity) {
-      console.log(`panel${this.panel.length}`)
       // Add the activity if it doesnt exist
       if (!this.selectedItems[activity.name]) {
         this.$set(this.selectedItems, activity.name, {})
@@ -182,7 +181,6 @@ export default {
     },
 
     isBrought2({ name }, activityName) {
-      console.log(`panel${this.panel.length}`)
       // console.log(`>>>${name}`)
 
       if (this.selectedItems[activityName]) {
@@ -192,7 +190,6 @@ export default {
     },
 
     rowClick(item) {
-      console.log(`panel${this.panel.length}`)
       const index = this.selected.indexOf(item.name)
       if (index !== -1) {
         this.selected.splice(index, 1)
@@ -205,13 +202,11 @@ export default {
     },
 
     isBrought({ name }) {
-      console.log(`panel${this.panel.length}`)
       // console.log(`>>>${name}`)
       return this.selected.indexOf(name) !== -1
     },
 
     itemsLeft(activity) {
-      console.log(`panel${this.panel.length}`)
       if (this.selectedItems[activity.name]) {
         return (
           activity.items.length - this.selectedItems[activity.name].list.length
@@ -224,7 +219,6 @@ export default {
       return 100
     },
     expandColapseAll() {
-      console.log(`panel${this.panel.length}`)
       if (this.isExpandAll) {
         this.panel = []
       } else {
@@ -233,12 +227,10 @@ export default {
       this.isExpandAll = !this.isExpandAll
     },
     uncheckAll() {
-      console.log(`panel${this.panel.length}`)
       this.selectedItems = {}
       this.panel = [...Array(this.itemList.length).keys()].map((k, i) => i)
     },
     allCheck() {
-      console.log(`panel${this.panel.length}`)
       let bool = true
       // for (let i = 0; i < this.itemList.length; i = +1) {
       // if (this.itemsLeft(this.itemList[i]) !== 0) {

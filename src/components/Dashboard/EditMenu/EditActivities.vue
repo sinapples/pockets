@@ -92,15 +92,45 @@
                   </v-btn>
                 </v-col>
               </v-row>
-              <v-card-actions v-if="editMode">
-                <v-btn color="error" small @click="deleteActivity"
-                  ><v-icon>mdi-trash</v-icon>Delete Activity</v-btn
-                >
-                <v-spacer></v-spacer>
-                <v-btn color="primary" small @click="editMode = !editMode"
-                  >Done</v-btn
-                >
-              </v-card-actions>
+
+              <!-- Advance edit -->
+              <!-- <v-row>
+                <v-col cols="7">
+                  <v-text-field
+                    v-model="activityName"
+                    dense
+                    show
+                    outlined
+                    :error="isError(activityName)"
+                    :error-messages="errorMsg(activityName)"
+                    label="Edit Activity Name"
+                    placeholder="Item Name"
+                  ></v-text-field>
+                </v-col>
+                <v-spacer />
+                <v-col>
+                  <v-btn
+                    color="primary darken-2"
+                    :disabled="isError(activityName)"
+                    @click="addItem"
+                  >
+                    <v-icon>mdi-plus</v-icon> Add
+                  </v-btn>
+                </v-col>
+              </v-row> -->
+              <v-expand-transition>
+                <div v-show="editMode">
+                  <v-card-actions>
+                    <v-btn color="error" small @click="deleteActivity"
+                      ><v-icon>mdi-trash</v-icon>Delete Activity</v-btn
+                    >
+                    <v-spacer></v-spacer>
+                    <v-btn color="primary" small @click="editMode = !editMode"
+                      >Update</v-btn
+                    >
+                  </v-card-actions>
+                </div>
+              </v-expand-transition>
             </div>
           </div>
         </v-sheet>
@@ -123,7 +153,9 @@ export default {
   components: { AddActivity },
   data: () => ({
     selectedChip: {},
-
+    // activityName: this.selectedEditActivity
+    //   ? this.selectedEditActivity.name
+    //   : '',
     editMode: false,
     itemRules: [v => !!v || 'Item Already Exist'],
     itemName: ''
