@@ -4,7 +4,7 @@
       <v-container>
         <v-row>
           <v-col cols="12">
-            <v-card color="blue" dark class="mx-auto" max-width="400">
+            <v-card color="secondary " dark class="mx-auto" max-width="400">
               <v-card-title class="headline"> Welcome to Pocket </v-card-title>
 
               <v-card-subtitle
@@ -18,26 +18,6 @@
             <v-card class="mx-auto" max-width="400">
               <v-card-title class="headline"> Login/Register</v-card-title>
               <v-card-text>
-                <!-- <v-form>
-                  <v-text-field
-                    outlined
-                    dense
-                    hint="Not impemented"
-                    label="Email"
-                  ></v-text-field>
-                  <v-text-field
-                    outlined
-                    dense
-                    hint="Not impemented"
-                    label="Password"
-                  ></v-text-field>
-                  <v-card-actions>
-                    <v-btn color="" @click="submit">Create Account</v-btn>
-                    <v-btn color="" @click="submit"> Sign In</v-btn>
-                  </v-card-actions>
-
-                  <v-divider class="pb-5">or</v-divider>
-                  <div class="text-center"> -->
                 <!-- Loader -->
                 <div v-show="user === undefined" data-test="loader">
                   Authenticating...
@@ -54,15 +34,14 @@
                 <v-btn
                   v-show="user !== undefined && !user && networkOnLine"
                   data-test="login-btn"
-                  color=""
+                  color="primary"
                   class="px-10"
+                  block
                   @click="login"
                 >
                   <v-icon class="pr-2">mdi-google</v-icon> Continue with
                   Google</v-btn
                 >
-                <!-- </div> -->
-                <!-- </v-form> -->
               </v-card-text>
             </v-card>
           </v-col>

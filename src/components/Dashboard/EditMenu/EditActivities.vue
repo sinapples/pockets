@@ -73,14 +73,16 @@
                   <v-text-field
                     v-model="itemName"
                     dense
+                    show
                     outlined
+                    :rules="itemRules"
                     label="Add Item"
                     placeholder="Item Name"
                   ></v-text-field>
                 </v-col>
                 <v-spacer />
                 <v-col>
-                  <v-btn color="primary darken-1" @click="addItem">
+                  <v-btn color="primary darken-2" @click="addItem">
                     <v-icon>mdi-plus</v-icon> Add
                   </v-btn>
                 </v-col>
@@ -107,7 +109,7 @@
 </template>
 <script>
 import { cloneDeep } from 'lodash'
-import { mapState, mapActions, mapGetters, mapMutations } from 'vuex'
+import { mapState, mapActions, mapMutations } from 'vuex'
 
 import AddActivity from '@/components/Dashboard/EditMenu/AddActivity'
 import { capitalize } from '@/utils/languageUtil'
@@ -115,20 +117,16 @@ import { capitalize } from '@/utils/languageUtil'
 export default {
   components: { AddActivity },
   data: () => ({
-    // Next time move this to vuex
-
     selectedChip: {},
-    selectedChips: {},
+
     editMode: false,
-    showAddActivity: false,
+    itemRules: [v => !!v || 'Item Already Exist'],
     itemName: ''
   }),
 
   computed: {
-    ...mapGetters('activities', ['isActivityDeletionPending']),
     ...mapState('activities', ['activities', 'selectedEditActivity']),
 
-    ...mapState('app', ['networkOnLine']),
     hasItems() {
       return this.selectedEditActivity.items !== undefined
         ? this.selectedEditActivity.items.length > 0
@@ -136,14 +134,13 @@ export default {
     }
   },
   watch: {
-    selectedEditActivity(newItem) {
-      const index = this.activities.findIndex(
-        element => element.name === newItem.name
-      )
-
-      // eslint-disable-next-line prefer-destructuring
-      this.selectedChip = this.activities[index]
-    }
+    // selectedEditActivity(newItem) {
+    //   const index = this.activities.findIndex(
+    //     element => element.name === newItem.name
+    //   )
+    //   // eslint-disable-next-line prefer-destructuring
+    //   this.selectedChip = this.activities[index]
+    // }
   },
   methods: {
     ...mapMutations('activities', ['setSelectedEditActivity']),
@@ -172,8 +169,22 @@ export default {
       updateItem.items.splice(index, 1)
       this.updateUserActivity(updateItem)
     },
+
+    isVaildNewItem(v) {
+      // if (v) {
+      //   const duplicates = this.selectedEditActivity.items.find(item => {
+      //     return item.name.toLowerCase() === v.toLowerCase()
+      //   })
+      //   console.log(duplicates)
+      //   if (duplicates) {
+      //     return false
+      //   }
+      //   return true
+      // }
+      console.log(v)
+      return true
+    },
     addItem() {
-      // TODO add input validation
       if (this.itemName) {
         const newItem = {
           name: capitalize(this.itemName)

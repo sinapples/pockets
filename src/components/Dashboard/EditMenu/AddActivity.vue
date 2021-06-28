@@ -6,6 +6,8 @@
           v-model="activityName"
           outlined
           dense
+          show
+          :rules="acitivityRules"
           label="Create Activity"
           placeholder="Activity Name"
         ></v-text-field>
@@ -15,7 +17,8 @@
       <v-col>
         <v-btn
           :class="{ disabled: activityCreationPending }"
-          color="primary darken-1"
+          color="primary darken-2"
+          :disabled="!isVaildNewActivity(activityName)"
           @click="addActivity"
         >
           <v-icon>mdi-plus</v-icon>Add
@@ -32,10 +35,15 @@ import { capitalizeWords } from '@/utils/languageUtil'
 export default {
   data() {
     return {
-      activityName: ''
+      activityName: '',
+      errorMsg: '',
+      acitivityRules: [
+        v => this.isVaildNewActivity(v) || 'Activity Already Exist'
+      ]
     }
   },
   computed: mapState('activities', [
+    'activities',
     'activityNameToCreate',
     'activityCreationPending'
   ]),
@@ -53,7 +61,22 @@ export default {
         }
         this.setActivityNameToCreate(activity)
         this.triggerAddActivityAction()
+        this.activityName = ''
       }
+    },
+    isVaildNewActivity(v) {
+      if (v) {
+        const duplicates = this.activities.find(acitvity => {
+          return acitvity.name.toLowerCase() === v.toLowerCase()
+        })
+        console.log(duplicates)
+        if (duplicates) {
+          return false
+        }
+        return true
+      }
+
+      return true
     }
   }
 }

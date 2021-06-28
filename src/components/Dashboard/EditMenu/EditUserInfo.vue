@@ -19,7 +19,7 @@
 
       <!-- Edit Card -->
       <v-card v-if="!editMode" class="elevation-0">
-        <v-card-title>Edit Account </v-card-title>
+        <v-card-title>Edit Account</v-card-title>
         <v-card-text>
           <v-text-field v-model="newDisplayName" label="Name"></v-text-field>
           <v-text-field
