@@ -11,6 +11,7 @@
           :error-messages="errorMsg(activityName)"
           label="Create Activity"
           placeholder="Activity Name"
+          @keypress.enter="addActivity"
         ></v-text-field>
       </v-col>
 
@@ -19,7 +20,7 @@
         <v-btn
           :class="{ disabled: activityCreationPending }"
           color="primary darken-2"
-          :disabled="!isError(activityName)"
+          :disabled="isError(activityName)"
           @click="addActivity"
         >
           <v-icon>mdi-plus</v-icon>Add
@@ -53,6 +54,10 @@ export default {
     ...mapActions('activities', ['triggerAddActivityAction']),
     addActivity() {
       console.log(`click ${this.activityName}`)
+      if (this.isError(this.activityName.trim())) {
+        return
+      }
+
       if (this.activityName.trim()) {
         const activity = {
           name: capitalizeWords(this.activityName.trim()),
@@ -65,29 +70,29 @@ export default {
         this.activityName = ''
       }
     },
-    isVaildNewActivity(v) {
-      if (v.trim()) {
-        const duplicates = this.activities.find(acitvity => {
-          return acitvity.name.trim().toLowerCase() === v.trim().toLowerCase()
-        })
-        console.log(duplicates)
-        if (duplicates) {
-          return false
-        }
-        return true
-      }
+    // isVaildNewActivity(v) {
+    //   if (v.trim()) {
+    //     const duplicates = this.activities.find(acitvity => {
+    //       return acitvity.name.trim().toLowerCase() === v.trim().toLowerCase()
+    //     })
+    //     console.log(duplicates)
+    //     if (duplicates) {
+    //       return false
+    //     }
+    //     return true
+    //   }
 
-      return true
-    },
+    //   return true
+    // },
 
     errorMsg(item) {
-      return this.isError(item) ? 'Item already exist' : ''
+      return this.isError(item) ? 'Activity already exist' : ''
     },
-    isError(item) {
-      if (item) {
+    isError(name) {
+      if (name) {
         const duplicates = this.activities.find(acitvity => {
           return (
-            acitvity.name.trim().toLowerCase() === item.trim().toLowerCase()
+            acitvity.name.trim().toLowerCase() === name.trim().toLowerCase()
           )
         })
         console.log(duplicates)

@@ -79,6 +79,7 @@
                     :error-messages="errorMsg(itemName)"
                     label="Add Item"
                     placeholder="Item Name"
+                    @keydown.enter="addItem"
                   ></v-text-field>
                 </v-col>
                 <v-spacer />
@@ -222,6 +223,10 @@ export default {
       return true
     },
     addItem() {
+      if (this.isError(this.itemName.trim())) {
+        return
+      }
+
       if (this.itemName.trim()) {
         const newItem = {
           name: capitalize(this.itemName.trim())

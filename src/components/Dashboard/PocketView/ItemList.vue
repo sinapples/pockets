@@ -25,13 +25,15 @@
       </v-card-actions>
 
       <!-- Ready message -->
-      <v-sheet v-if="allCheck()" color="primary darken-2">
-        <v-card-title dense class="justify-center white--text">
-          <v-icon class="mr-2" color="white">mdi-party-popper</v-icon>
-          You are ready to go!
-          <v-icon class="ml-2" color="white">mdi-party-popper</v-icon>
-        </v-card-title>
-      </v-sheet>
+      <v-expand-transition>
+        <v-sheet v-show="allCheck()" color="primary darken-2">
+          <v-card-title dense class="justify-center white--text">
+            <v-icon class="mr-2" color="white">mdi-party-popper</v-icon>
+            You are ready to go!
+            <v-icon class="ml-2" color="white">mdi-party-popper</v-icon>
+          </v-card-title>
+        </v-sheet>
+      </v-expand-transition>
       <!-- List view -->
       <v-expansion-panels v-model="panel" multiple>
         <v-expansion-panel
@@ -41,15 +43,15 @@
           :prepend-icon="activity.icon"
           class="pa-1"
         >
+          <!-- Activity Title -->
           <v-expansion-panel-header dense ripple color="primary lighten-1">
             <div>
-              <v-btn x-small color="secondary" depressed class="mr-2" fab>
+              <v-progress-circular :value="progress(activity)" class="mr-2">
                 <span v-if="itemsLeft(activity) !== 0">{{
                   itemsLeft(activity)
                 }}</span>
-
                 <v-icon v-else>mdi-check</v-icon>
-              </v-btn>
+              </v-progress-circular>
               {{ capitalize(activity.name) }}
             </div>
           </v-expansion-panel-header>
@@ -255,6 +257,10 @@ export default {
     },
     capitalize(item) {
       return capitalizeWords(item)
+    },
+    progress(activity) {
+      const total = activity.items ? activity.items.length : 0
+      return (1 - this.itemsLeft(activity) / total) * 100
     }
   }
 }
