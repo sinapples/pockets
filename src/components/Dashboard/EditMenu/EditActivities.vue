@@ -95,38 +95,60 @@
               </v-row>
 
               <!-- Advance edit -->
-              <!-- <v-row>
-                <v-col cols="7">
-                  <v-text-field
-                    v-model="activityName"
-                    dense
-                    show
-                    outlined
-                    :error="isError(activityName)"
-                    :error-messages="errorMsg(activityName)"
-                    label="Edit Activity Name"
-                    placeholder="Item Name"
-                  ></v-text-field>
-                </v-col>
-                <v-spacer />
-                <v-col>
-                  <v-btn
-                    color="primary darken-2"
-                    :disabled="isError(activityName)"
-                    @click="addItem"
-                  >
-                    <v-icon>mdi-plus</v-icon> Add
-                  </v-btn>
-                </v-col>
-              </v-row> -->
+
               <v-expand-transition>
                 <div v-show="editMode">
                   <v-card-actions>
-                    <v-btn color="error" small @click="deleteActivity"
-                      ><v-icon>mdi-trash</v-icon>Delete Activity</v-btn
-                    >
+                    <!-- Confrim Delete Button -->
+                    <v-expand-transition v-if="confirmDelete">
+                      <span v-show="confirmDelete">
+                        <v-row no-gutters>
+                          <v-col cols="12">
+                            <span>
+                              Delete {{ selectedEditActivity.name }}?
+                            </span>
+                          </v-col>
+
+                          <v-col>
+                            <v-btn
+                              color="error"
+                              class="mr-2"
+                              small
+                              @click="deleteActivity"
+                            >
+                              Yes</v-btn
+                            >
+                            <v-btn
+                              color="secondary"
+                              class="mr-2"
+                              small
+                              @click="confirmDelete = !confirmDelete"
+                            >
+                              No</v-btn
+                            >
+                          </v-col>
+                        </v-row>
+                      </span>
+                    </v-expand-transition>
+                    <!-- Delete? button -->
+                    <v-expand-transition v-else>
+                      <span>
+                        <v-row no-gutters>
+                          <v-col cols="12">
+                            <v-btn
+                              color="error"
+                              small
+                              @click="confirmDelete = !confirmDelete"
+                              ><v-icon>mdi-trash</v-icon>Delete Activity</v-btn
+                            >
+                          </v-col>
+                        </v-row>
+                      </span>
+                    </v-expand-transition>
+
+                    <!-- Save button -->
                     <v-spacer></v-spacer>
-                    <v-btn color="primary" small @click="editMode = !editMode"
+                    <v-btn color="primary" @click="editMode = !editMode"
                       >Update</v-btn
                     >
                   </v-card-actions>
@@ -154,9 +176,7 @@ export default {
   components: { AddActivity },
   data: () => ({
     selectedChip: {},
-    // activityName: this.selectedEditActivity
-    //   ? this.selectedEditActivity.name
-    //   : '',
+    confirmDelete: false,
     editMode: false,
     itemRules: [v => !!v || 'Item Already Exist'],
     itemName: ''
