@@ -39,10 +39,28 @@
         <v-sheet rounded="t-xl" outlined>
           <v-sheet class="primary text-right">
             <!-- Activity Heading -->
-            <v-card-title
-              >{{ selectedEditActivity.name }}
+            <v-card-title>
+              <span v-if="editMode" class="align-center">
+                <v-text-field
+                  v-model="newActivityName"
+                  class="pa-0 ma-0"
+                  dense
+                  hide-details
+                  show
+                  color="white"
+                  outlined
+                  label="Edit Activity Name"
+                  :error="isActivityNameError(newActivityName)"
+                  :error-messages="errorActivityNameMsg(newActivityName)"
+                  placeholder="Activity Name"
+                  @keydown.enter="addItem"
+                ></v-text-field>
+              </span>
+              <span v-else>
+                {{ selectedEditActivity.name }}
+              </span>
               <v-spacer></v-spacer>
-              <v-btn icon @click="editMode = !editMode">
+              <v-btn icon @click="advanceEditMode">
                 <v-icon v-if="editMode">mdi-check</v-icon>
                 <v-icon v-else>mdi-pencil</v-icon>
               </v-btn>
@@ -95,9 +113,34 @@
               </v-row>
 
               <!-- Advance edit -->
-
               <v-expand-transition>
                 <div v-show="editMode">
+                  <v-divider />
+                  <v-row>
+                    <v-col cols="12">
+                      <v-card-title>
+                        How often do you
+                        {{ selectedEditActivity.name }}?
+                      </v-card-title>
+                      <v-card-text class="mt-8">
+                        <v-slider
+                          v-model="rank"
+                          :tick-labels="sliderLabels"
+                          ticks="always"
+                          tick-size="3"
+                          :max="3"
+                          :thumb-size="40"
+                        >
+                          <template v-slot:thumb-label="{ value }">
+                            <span style="font-size: 30px;">
+                              {{ emojiList[value] }}
+                            </span>
+                          </template>
+                        </v-slider>
+                      </v-card-text>
+                    </v-col>
+                  </v-row>
+
                   <v-card-actions>
                     <!-- Confrim Delete Button -->
                     <v-expand-transition v-if="confirmDelete">
@@ -148,7 +191,10 @@
 
                     <!-- Save button -->
                     <v-spacer></v-spacer>
-                    <v-btn color="primary" @click="editMode = !editMode"
+                    <v-btn
+                      color="primary darken-2"
+                      :disabled="isActivityNameError(newActivityName)"
+                      @click="updateActivity"
                       >Update</v-btn
                     >
                   </v-card-actions>
@@ -170,16 +216,23 @@ import { cloneDeep } from 'lodash'
 import { mapState, mapActions, mapMutations } from 'vuex'
 
 import AddActivity from '@/components/Dashboard/EditMenu/AddActivity'
-import { capitalize } from '@/utils/languageUtil'
+import { capitalize, capitalizeWords } from '@/utils/languageUtil'
 
+const numberOfRanks = 4
 export default {
   components: { AddActivity },
   data: () => ({
     selectedChip: {},
+    newActivityName: 'moo',
     confirmDelete: false,
     editMode: false,
     itemRules: [v => !!v || 'Item Already Exist'],
-    itemName: ''
+    itemName: '',
+    value: 0,
+    rank: 2,
+    sliderLabels: ['Rarely', 'Sometimes', 'Often', 'Daily'],
+    emojiList: ['😭', '😐', '😄', '😍'],
+    slider: 45
   }),
 
   computed: {
@@ -193,6 +246,8 @@ export default {
   },
   watch: {
     selectedEditActivity(newItem) {
+      this.newActivityName = newItem.name
+      this.rank = numberOfRanks - this.selectedEditActivity.rank
       const index = this.activities.findIndex(
         element => element.name === newItem.name
       )
@@ -277,6 +332,63 @@ export default {
       }
 
       return false
+    },
+
+    errorActivityNameMsg(item) {
+      return this.isError(item) ? 'Cannot Be Empty' : ''
+    },
+    isActivityNameError(name) {
+      const oldName = this.selectedEditActivity
+        ? this.selectedEditActivity.name
+        : 'null'
+
+      // is empty
+      if (name.trim()) {
+        if (name) {
+          if (this.activities) {
+            const duplicates = this.activities.find(acitvity => {
+              return (
+                acitvity.name.trim().toLowerCase() ===
+                  name.trim().toLowerCase() &&
+                acitvity.name.trim().toLowerCase() !==
+                  oldName.trim().toLowerCase()
+              )
+            })
+            console.log(`error${duplicates}`)
+            if (duplicates) {
+              return true
+            }
+            return false
+          }
+          return false
+        }
+      }
+      return true
+    },
+    updateActivity() {
+      // Error checks
+
+      if (this.isActivityNameError(this.newActivityName)) {
+        return
+      }
+
+      const updateActivity = cloneDeep(this.selectedEditActivity)
+      if (
+        updateActivity.name.toLowerCase() !== this.newActivityName.toLowerCase()
+      ) {
+        updateActivity.name = capitalizeWords(this.newActivityName)
+      }
+
+      updateActivity.rank = numberOfRanks - this.rank
+      this.updateUserActivity(updateActivity)
+      // this.editMode = !this.editMode
+      console.log(updateActivity)
+    },
+
+    advanceEditMode() {
+      this.editMode = !this.editMode
+      this.newActivityName = this.selectedEditActivity.name
+      this.rank = numberOfRanks - this.selectedEditActivity.rank
     }
   }
 }

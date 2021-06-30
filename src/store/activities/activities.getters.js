@@ -16,9 +16,25 @@ export default {
   // Remove Always bring from the selectable options
   activities: state => {
     if (state.activities) {
-      return state.activities.filter(
-        activity => activity.name !== 'Always Bring'
-      )
+      return state.activities
+        .filter(activity => activity.name !== 'Always Bring')
+        .sort((firstEl, secondEl) => {
+          if (firstEl.rank < secondEl.rank) {
+            return -1
+          }
+          if (firstEl.rank > secondEl.rank) {
+            return 1
+          }
+
+          // Alpahbet
+          if (firstEl.name < secondEl.name) {
+            return -1
+          }
+          if (firstEl.name > secondEl.name) {
+            return 1
+          }
+          return 0
+        })
     }
 
     return state.activities

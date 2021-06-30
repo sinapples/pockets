@@ -70,20 +70,6 @@ export default {
         this.activityName = ''
       }
     },
-    // isVaildNewActivity(v) {
-    //   if (v.trim()) {
-    //     const duplicates = this.activities.find(acitvity => {
-    //       return acitvity.name.trim().toLowerCase() === v.trim().toLowerCase()
-    //     })
-    //     console.log(duplicates)
-    //     if (duplicates) {
-    //       return false
-    //     }
-    //     return true
-    //   }
-
-    //   return true
-    // },
 
     errorMsg(item) {
       return this.isError(item) ? 'Activity already exist' : ''
