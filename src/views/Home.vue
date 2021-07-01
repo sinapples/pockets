@@ -111,7 +111,7 @@
         Google Assisant</v-btn
       >
     </v-container>
-    <v-sheet color="primary">
+    <v-sheet color="primary" class="pb-6">
       <div class="text-center">
         <v-row class="px-4 pt-4" no-gutters>
           <v-col>Login</v-col>
@@ -120,7 +120,11 @@
         </v-row>
         <v-row class="px-4" no-gutters>
           <v-col>Sign up</v-col>
-          <v-col>Careers</v-col>
+          <v-col
+            ><a href="https://cafe-boba.web.app/home" class="black--text"
+              >Careers
+            </a></v-col
+          >
           <v-col>Contact</v-col>
         </v-row>
         <v-row class="px-4" no-gutters>
