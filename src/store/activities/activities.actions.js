@@ -72,8 +72,8 @@ export default {
     console.log('item')
     console.log(activityId)
     commit('updateActivityById', activityId, activity)
-    commit('setActivityCreationPending', false)
     const activities = await userActivitiesDb.readAll()
+    commit('setActivityCreationPending', false)
     commit('setActivities', activities)
     commit('setSelectedEditActivity', activity)
   },

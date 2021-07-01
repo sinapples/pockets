@@ -39,5 +39,40 @@ export default {
 
     return state.activities
     // .filter(activity => activity.name === 'Always Bring')
+  },
+  // Remove Always bring from the selectable options
+  getEditActivities: state => {
+    console.log('MOPOOO')
+    if (state.activities) {
+      const alwayBring = state.activities.filter(
+        activity => activity.name === 'Always Bring'
+      )
+
+      const sorted = state.activities
+        .filter(activity => activity.name !== 'Always Bring')
+        .sort((firstEl, secondEl) => {
+          if (firstEl.rank < secondEl.rank) {
+            return -1
+          }
+          if (firstEl.rank > secondEl.rank) {
+            return 1
+          }
+
+          // Alpahbet
+          if (firstEl.name < secondEl.name) {
+            return -1
+          }
+          if (firstEl.name > secondEl.name) {
+            return 1
+          }
+          return 0
+        })
+
+      // state.activities.unshift(alwayBring)
+      return alwayBring.concat(sorted)
+    }
+
+    return state.activities
+    // .filter(activity => activity.name === 'Always Bring')
   }
 }

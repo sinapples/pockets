@@ -39,7 +39,7 @@
       </v-container>
       <div class="white--text">
         <div>
-          Support the devlopment of Pockets by
+          Support the development of Pockets by
         </div>
         <div class="font-weight-bold primary--text pt-4">
           <span style="font-size:20px; color:black">🧋</span>

@@ -15,7 +15,7 @@
             mandatory
             column
             center-active
-            active-class="primary--text"
+            active-class="primary--text "
           >
             <v-chip
               v-for="activity in activities"
@@ -60,9 +60,14 @@
                 {{ selectedEditActivity.name }}
               </span>
               <v-spacer></v-spacer>
-              <v-btn icon @click="advanceEditMode">
-                <v-icon v-if="editMode">mdi-check</v-icon>
-                <v-icon v-else>mdi-pencil</v-icon>
+              <v-btn depressed text @click="advanceEditMode">
+                <span v-if="editMode">Done</span>
+                <span v-else
+                  >Edit
+
+                  <v-icon>mdi-pencil</v-icon>
+                </span>
+                <!-- <v-icon v-if="editMode">mdi-check</v-icon> -->
               </v-btn>
             </v-card-title>
           </v-sheet>
@@ -86,7 +91,7 @@
             <v-divider class="my-4"></v-divider>
             <!-- Add items  -->
             <div>
-              <v-row>
+              <v-row v-show="!editMode">
                 <v-col cols="7">
                   <v-text-field
                     v-model="itemName"
@@ -193,6 +198,7 @@
                     <v-spacer></v-spacer>
                     <v-btn
                       color="primary darken-2"
+                      :loading="activityCreationPending"
                       :disabled="isActivityNameError(newActivityName)"
                       @click="updateActivity"
                       >Update</v-btn
@@ -213,7 +219,7 @@
 </template>
 <script>
 import { cloneDeep } from 'lodash'
-import { mapState, mapActions, mapMutations } from 'vuex'
+import { mapState, mapActions, mapMutations, mapGetters } from 'vuex'
 
 import AddActivity from '@/components/Dashboard/EditMenu/AddActivity'
 import { capitalize, capitalizeWords } from '@/utils/languageUtil'
@@ -236,7 +242,11 @@ export default {
   }),
 
   computed: {
-    ...mapState('activities', ['activities', 'selectedEditActivity']),
+    ...mapState('activities', [
+      'selectedEditActivity',
+      'activityCreationPending'
+    ]),
+    ...mapGetters('activities', { activities: 'getEditActivities' }),
 
     hasItems() {
       return this.selectedEditActivity.items !== undefined
@@ -267,6 +277,7 @@ export default {
         const idToDelete = this.selectedEditActivity.id
 
         this.deleteUserActivity(idToDelete)
+        this.confirmDelete = false
       }
     },
     setSelectedEditActivityMoo(item) {
