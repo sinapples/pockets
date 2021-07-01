@@ -91,7 +91,7 @@
             <v-divider class="my-4"></v-divider>
             <!-- Add items  -->
             <div>
-              <v-row v-show="!editMode">
+              <v-row v-if="!editMode">
                 <v-col cols="7">
                   <v-text-field
                     v-model="itemName"
@@ -120,7 +120,7 @@
               <!-- Advance edit -->
               <v-expand-transition>
                 <div v-show="editMode">
-                  <v-divider />
+                  <!-- <v-divider /> -->
                   <v-row>
                     <v-col cols="12">
                       <v-card-title>
