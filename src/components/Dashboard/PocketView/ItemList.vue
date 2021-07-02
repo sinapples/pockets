@@ -2,7 +2,7 @@
   <div>
     <v-card>
       <!-- Title -->
-      <v-sheet dark color="secondary">
+      <v-sheet dark color="secondary darken-1">
         <v-card-title class="text-center">
           <v-icon class="mr-2"> mdi-clipboard-list-outline</v-icon> Bring these
           today!</v-card-title

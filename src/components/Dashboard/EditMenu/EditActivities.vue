@@ -7,8 +7,13 @@
         <v-card-title>Edit Activity List </v-card-title>
       </v-sheet>
       <!-- Activity Chips  -->
-      <v-card-text>
-        <div class="mx-4">
+      <v-card>
+        <div class="mx-4 mt-4 mb-2">
+          <!-- Add activity  -->
+
+          <AddActivity />
+
+          <v-divider class=" mb-2"></v-divider>
           <span class="black--text">Your Activities </span>
           <v-chip-group
             v-model="selectedChip"
@@ -27,13 +32,8 @@
               {{ activity.name }}
             </v-chip>
           </v-chip-group>
-          <!-- Add activity  -->
-          <v-divider class="my-4"></v-divider>
-          <div>
-            <AddActivity />
-          </div>
         </div>
-      </v-card-text>
+      </v-card>
       <!-- Edit Activity  -->
       <v-card class="elevation-0">
         <v-sheet rounded="t-xl" outlined>
@@ -61,37 +61,25 @@
               </span>
               <v-spacer></v-spacer>
               <v-btn depressed text @click="advanceEditMode">
-                <span v-if="editMode">Done</span>
+                <span v-if="editMode">
+                  Exit<v-icon class="mb-1">mdi-close</v-icon></span
+                >
                 <span v-else
                   >Edit
 
-                  <v-icon>mdi-pencil</v-icon>
+                  <v-icon class="mb-1">mdi-pencil</v-icon>
                 </span>
                 <!-- <v-icon v-if="editMode">mdi-check</v-icon> -->
               </v-btn>
             </v-card-title>
           </v-sheet>
-          <!-- Item List Label -->
           <div class="pa-4">
-            <span v-if="hasItems" class="subheading">Current Items</span
-            ><span v-else class="subheading">Add Items</span>
-            <!-- Item List -->
-            <v-chip-group active-class="primary--text" column>
-              <v-chip
-                v-for="tag in selectedEditActivity.items"
-                :key="tag.id"
-                :value="tag.name"
-                close-icon="mdi-delete"
-                :close="editMode"
-                @click:close="deleteItem(tag)"
-              >
-                {{ tag.name }}
-              </v-chip>
-            </v-chip-group>
-            <v-divider class="my-4"></v-divider>
-            <!-- Add items  -->
-            <div>
-              <v-row v-if="!editMode">
+            <!-- Add Item UI -->
+            <div v-if="!editMode || editMode">
+              <div class="black--text   mb-2">
+                Add Items to {{ newActivityName }}
+              </div>
+              <v-row>
                 <v-col cols="7">
                   <v-text-field
                     v-model="itemName"
@@ -109,13 +97,58 @@
                 <v-col>
                   <v-btn
                     color="primary darken-2"
-                    :disabled="isError(itemName)"
+                    :disabled="isError(itemName) || itemName.trim() === ''"
                     @click="addItem"
                   >
                     <v-icon>mdi-plus</v-icon> Add
                   </v-btn>
                 </v-col>
               </v-row>
+            </div>
+            <!-- Item List Label -->
+            <span v-if="hasItems" class="subheading">Current Items</span
+            ><span v-else class="subheading">Add Items</span>
+            <!-- Item List -->
+            <v-chip-group active-class="primary--text" column>
+              <v-chip
+                v-for="tag in selectedEditActivity.items"
+                :key="tag.id"
+                :value="tag.name"
+                close-icon="mdi-delete"
+                :close="editMode"
+                @click:close="deleteItem(tag)"
+              >
+                {{ tag.name }}
+              </v-chip>
+            </v-chip-group>
+            <v-divider class="my-4"></v-divider>
+            <!-- Add items  -->
+            <div ref="list">
+              <!-- <v-row v-if="!editMode">
+                <v-col cols="7">
+                  <v-text-field
+                    v-model="itemName"
+                    dense
+                    show
+                    outlined
+                    :error="isError(itemName)"
+                    :error-messages="errorMsg(itemName)"
+                    label="Add Item"
+                    placeholder="Item Name"
+                    @keydown.enter="addItem"
+                  ></v-text-field>
+                </v-col>
+                <v-spacer />
+                <v-col>
+                  <v-btn
+                    color="primary darken-2"
+                    :disabled="isError(itemName) || itemName.trim() === ''"
+                    @click="addItem"
+                  >
+                    <v-icon>mdi-plus</v-icon> Add
+                  </v-btn>
+                </v-col>
+              </v-row> -->
 
               <!-- Advance edit -->
               <v-expand-transition>
@@ -130,9 +163,11 @@
                       <v-card-text class="mt-8">
                         <v-slider
                           v-model="rank"
+                          color="primary darken-1"
+                          track-color="secondary lighten-2"
                           :tick-labels="sliderLabels"
                           ticks="always"
-                          tick-size="3"
+                          tick-size="8"
                           :max="3"
                           :thumb-size="40"
                         >
@@ -197,11 +232,12 @@
                     <!-- Save button -->
                     <v-spacer></v-spacer>
                     <v-btn
+                      id="edit"
                       color="primary darken-2"
                       :loading="activityCreationPending"
                       :disabled="isActivityNameError(newActivityName)"
                       @click="updateActivity"
-                      >Update</v-btn
+                      >Save</v-btn
                     >
                   </v-card-actions>
                 </div>
@@ -222,7 +258,7 @@ import { cloneDeep } from 'lodash'
 import { mapState, mapActions, mapMutations, mapGetters } from 'vuex'
 
 import AddActivity from '@/components/Dashboard/EditMenu/AddActivity'
-import { capitalize, capitalizeWords } from '@/utils/languageUtil'
+import { capitalize } from '@/utils/languageUtil'
 
 const numberOfRanks = 4
 export default {
@@ -236,7 +272,7 @@ export default {
     itemName: '',
     value: 0,
     rank: 2,
-    sliderLabels: ['Rarely', 'Sometimes', 'Often', 'Daily'],
+    sliderLabels: ['Rarely', ' ', ' ', 'Daily'],
     emojiList: ['😭', '😐', '😄', '😍'],
     slider: 45
   }),
@@ -278,6 +314,7 @@ export default {
 
         this.deleteUserActivity(idToDelete)
         this.confirmDelete = false
+        this.editMode = false
       }
     },
     setSelectedEditActivityMoo(item) {
@@ -292,6 +329,7 @@ export default {
       )
       updateItem.items.splice(index, 1)
       this.updateUserActivity(updateItem)
+      this.editMode = !this.editMode
     },
 
     isVaildNewItem(v) {
@@ -384,10 +422,8 @@ export default {
       }
 
       const updateActivity = cloneDeep(this.selectedEditActivity)
-      if (
-        updateActivity.name.toLowerCase() !== this.newActivityName.toLowerCase()
-      ) {
-        updateActivity.name = capitalizeWords(this.newActivityName)
+      if (updateActivity.name !== this.newActivityName) {
+        updateActivity.name = this.newActivityName
       }
 
       updateActivity.rank = numberOfRanks - this.rank

@@ -1,5 +1,8 @@
 <template>
-  <div>
+  <span>
+    <div class="black--text   mb-2">
+      Create New Activity
+    </div>
     <v-row>
       <v-col cols="7">
         <v-text-field
@@ -20,14 +23,14 @@
         <v-btn
           :class="{ disabled: activityCreationPending }"
           color="primary darken-2"
-          :disabled="isError(activityName)"
+          :disabled="isError(activityName) || activityName.trim() === ''"
           @click="addActivity"
         >
           <v-icon>mdi-plus</v-icon>Add
         </v-btn>
       </v-col>
     </v-row>
-  </div>
+  </span>
 </template>
 
 <script>
@@ -38,7 +41,7 @@ export default {
   data() {
     return {
       activityName: '',
-
+      currentError: '',
       acitivityRules: [
         v => this.isVaildNewActivity(v.trim()) || 'Activity Already Exist'
       ]

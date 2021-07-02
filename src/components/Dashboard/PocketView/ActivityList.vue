@@ -74,8 +74,8 @@ export default {
     ]),
     color(item) {
       return this.selectedActivities.findIndex(id => id === item.id) === -1
-        ? 'secondary'
-        : 'primary'
+        ? 'secondary lighten-2'
+        : 'primary darken-1'
     },
 
     icon(item) {
